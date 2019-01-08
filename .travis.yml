@@ -7,4 +7,5 @@ install:
 
 script:
   - npm run test
-  - npm run coverage:report
+  - npm run codecov
+  - npm run coveralls
