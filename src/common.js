@@ -11,7 +11,7 @@ const sha256 = data => {
   return h.digest("hex");
 };
 
-const createVerifyData = async (data, options) => {
+const createVerifyData = async (data, options, signatureAttribute ) => {
   const transformedOptions = {
     ...options,
     "@context": "https://w3id.org/identity/v1"
@@ -22,7 +22,7 @@ const createVerifyData = async (data, options) => {
   const canonizedOptions = await canonize(transformedOptions);
   const optionsHash = await sha256(canonizedOptions);
   const transformedData = { ...data };
-  delete transformedData["signature"];
+  delete transformedData[signatureAttribute];
   const cannonidedData = await canonize(transformedData);
   const documentHash = await sha256(cannonidedData);
   const verifyData = `${optionsHash}${documentHash}`;

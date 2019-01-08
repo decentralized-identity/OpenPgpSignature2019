@@ -3,9 +3,20 @@ const crypto = require("crypto");
 
 const { createVerifyData } = require("./common");
 
-const sign = async ({ data, privateKey, creator, created, domain }) => {
+const sign = async ({
+  data,
+  privateKey,
+  creator,
+  created,
+  domain,
+  signatureAttribute
+}) => {
   if (!creator) {
     throw new Error("creator is required.");
+  }
+
+  if (!signatureAttribute) {
+    signatureAttribute = "signature";
   }
 
   const options = {
@@ -18,7 +29,7 @@ const sign = async ({ data, privateKey, creator, created, domain }) => {
   if (!domain) {
     delete options.domain;
   }
-  const verifyData = await createVerifyData(data, options);
+  const verifyData = await createVerifyData(data, options, signatureAttribute);
   const signed = await openpgp.sign({
     message: openpgp.cleartext.fromText(verifyData), // CleartextMessage or Message object
     privateKeys: [privateKey], // for signing
@@ -26,19 +37,27 @@ const sign = async ({ data, privateKey, creator, created, domain }) => {
   });
   return {
     ...data,
-    signature: {
+    [signatureAttribute]: {
       ...options,
       signatureValue: signed.signature
     }
   };
 };
 
-const verify = async ({ data, publicKey }) => {
-  const verifyData = await createVerifyData(data, data.signature);
+const verify = async ({ data, publicKey, signatureAttribute }) => {
+  if (!signatureAttribute) {
+    signatureAttribute = "signature";
+  }
+
+  const verifyData = await createVerifyData(
+    data,
+    data[signatureAttribute],
+    signatureAttribute
+  );
   const verified = await openpgp.verify({
     message: openpgp.cleartext.fromText(verifyData), // CleartextMessage or Message object
     signature: await openpgp.signature.readArmored(
-      data.signature.signatureValue
+      data[signatureAttribute].signatureValue
     ), // parse detached signature
     publicKeys: (await openpgp.key.readArmored(publicKey)).keys // for verification
   });
