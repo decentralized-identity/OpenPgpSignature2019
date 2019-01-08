@@ -1,0 +1,33 @@
+{
+  "name": "openpgpsignature2019",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "jest --coverage --testPathIgnorePatterns __fixtures__ -- ",
+    "coverage:report": "codecov"
+  },
+  "jest": {
+    "setupFiles": [
+      "./setupJest.js"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/transmute-industries/PROPOSAL-openpgpsignature2019.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/transmute-industries/PROPOSAL-openpgpsignature2019/issues"
+  },
+  "homepage": "https://github.com/transmute-industries/PROPOSAL-openpgpsignature2019#readme",
+  "devDependencies": {
+    "codecov": "^3.1.0",
+    "jest": "^23.6.0"
+  },
+  "dependencies": {
+    "jsonld": "^1.4.0",
+    "openpgp": "^4.4.3"
+  }
+}
