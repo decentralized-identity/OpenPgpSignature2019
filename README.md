@@ -6,7 +6,13 @@ This is a WIP proposal, and has not been formally submitted.
 
 ## Motivation
 
-OpenPGP is a standard that defines formats for encryption keys and messages. By providing a Linked Data Signature suite that uses OpenPGP we can leverage a more established standard to support an emerging one (Linked Data Signatures). A Linked Data Signature Suite for OpenPGP also enables OpenPGP to be used as a building block for other standards, such as Decentralized Identifiers. 
+OpenPGP is a standard that defines formats for encryption keys and messages. By providing a Linked Data Signature suite that uses OpenPGP we can leverage a more established standard to support an emerging one (Linked Data Signatures). A Linked Data Signature Suite for OpenPGP also enables OpenPGP to be used as a building block for other standards, such as Decentralized Identifiers.
+
+## Details
+
+This signature suite follows the approach taken by [RsaSignature2017](https://github.com/transmute-industries/RsaSignature2017), and [EcdsaKoblitzSignature2016](https://github.com/transmute-industries/EcdsaKoblitzSignature2016).
+
+Addionally it supports custom attribute for signature, and compaction and expansion to save space from PGP Armor.
 
 ## W3C Links
 

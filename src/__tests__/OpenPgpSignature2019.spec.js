@@ -3,13 +3,15 @@ const openpgp = require("openpgp");
 const { sign, verify } = require("../index");
 
 describe("OpenPgpSignature2019", () => {
-  it("should support sign and verify of linked data", async () => {
-    expect.assertions(2);
-
-    const privateKey = (await openpgp.key.readArmored(
+  let privateKey;
+  beforeAll(async () => {
+    privateKey = (await openpgp.key.readArmored(
       fixtures.keypairs.secp256k1.privateKey
     )).keys[0];
     await privateKey.decrypt(fixtures.passphrase);
+  });
+  it("should support sign and verify of linked data", async () => {
+    expect.assertions(2);
 
     const signed = await sign({
       data: fixtures.linkedData,
@@ -29,17 +31,7 @@ describe("OpenPgpSignature2019", () => {
   it("should support custom domain", async () => {
     expect.assertions(3);
 
-    const privateKey = (await openpgp.key.readArmored(
-      fixtures.keypairs.secp256k1.privateKey
-    )).keys[0];
-    await privateKey.decrypt(fixtures.passphrase);
-
-    const signed = await sign({
-      data: fixtures.linkedData,
-      privateKey,
-      creator: "did:example:123",
-      domain: "example.com"
-    });
+    const signed = fixtures.signed.signedWithDomain;
 
     expect(signed.signature.creator).toBe("did:example:123");
     expect(signed.signature.domain).toBe("example.com");
@@ -54,18 +46,7 @@ describe("OpenPgpSignature2019", () => {
   it("should support signatureAttribute name (proof)", async () => {
     expect.assertions(3);
 
-    const privateKey = (await openpgp.key.readArmored(
-      fixtures.keypairs.secp256k1.privateKey
-    )).keys[0];
-    await privateKey.decrypt(fixtures.passphrase);
-
-    const signed = await sign({
-      data: fixtures.linkedData,
-      privateKey,
-      signatureAttribute: "proof",
-      creator: "did:example:123",
-      domain: "example.com"
-    });
+    const signed = fixtures.signed.signedWithProof;
 
     expect(signed.proof.creator).toBe("did:example:123");
     expect(signed.proof.domain).toBe("example.com");
@@ -89,5 +70,22 @@ describe("OpenPgpSignature2019", () => {
     } catch (e) {
       expect(e.message).toBe("creator is required.");
     }
+  });
+
+  it("can use compact signatures (PGP headers removed)", async () => {
+    expect.assertions(2);
+
+    const signed = await sign({
+      data: fixtures.linkedData,
+      compact: true,
+      creator: "did:example:123",
+      privateKey
+    });
+    expect(signed.signature.signatureValue.indexOf("PGP SIGNATURE")).toBe(-1);
+    const verified = await verify({
+      data: signed,
+      publicKey: fixtures.keypairs.secp256k1.publicKey
+    });
+    expect(verified).toBe(true);
   });
 });

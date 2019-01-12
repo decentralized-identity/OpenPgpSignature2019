@@ -1,6 +1,8 @@
 const fixtures = require("./__fixtures__");
 const openpgp = require("openpgp");
 
+const { compact, expand } = require("../encoding");
+
 describe("openpgp", () => {
   it("should support key generation, sign and verify", async () => {
     expect.assertions(3);
