@@ -17,22 +17,6 @@ This signature suite follows the approach taken by:
 
 Addionally it supports custom attribute for signature, and compaction and expansion to save space from PGP Armor.
 
-### Signed
-
-```
-{
-  "@context": "https://w3id.org/identity/v1",
-  "givenName": "Alice",
-  "signature": {
-    "type": "OpenPgpSignature2019",
-    "creator": "did:example:123",
-    "domain": "example.com",
-    "nonce": "8822e932fb3a1e5ade2e404f364c9a8c",
-    "created": "2019-01-12T17:47:16.898Z",
-    "signatureValue": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nwl4EARMIAAYFAlw6KCUACgkQSnoBzSruDWCmowEA4Kv1atfKESP0KAUODSkz\r\nPh2YQGHc2QGOmAjy0xSSF10A/RhR3d0mz+Gm9fg5jInh7RLlS6+Q8seOnIi2\r\nJVKhEzVt\r\n=Tby9\r\n-----END PGP SIGNATURE-----\r\n"
-  }
-}
-```
 
 ### Signed with Proof
 
@@ -57,7 +41,7 @@ Addionally it supports custom attribute for signature, and compaction and expans
 {
   "@context": "https://w3id.org/identity/v1",
   "givenName": "Alice",
-  "signature": {
+  "proof": {
     "type": "OpenPgpSignature2019",
     "creator": "did:example:123",
     "nonce": "6662f8ffb3859e1caea1657999a8b955",
