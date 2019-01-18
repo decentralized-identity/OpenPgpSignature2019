@@ -1,7 +1,7 @@
 {
   "@context": "https://w3id.org/identity/v1",
   "givenName": "Alice",
-  "signature": {
+  "proof": {
     "type": "OpenPgpSignature2019",
     "creator": "did:example:123",
     "domain": "example.com",

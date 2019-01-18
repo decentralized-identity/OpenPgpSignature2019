@@ -10,7 +10,10 @@ OpenPGP is a standard that defines formats for encryption keys and messages. By 
 
 ## Details
 
-This signature suite follows the approach taken by [RsaSignature2017](https://github.com/transmute-industries/RsaSignature2017), and [EcdsaKoblitzSignature2016](https://github.com/transmute-industries/EcdsaKoblitzSignature2016).
+This signature suite follows the approach taken by:
+- [Ed25519Signature2018](https://github.com/transmute-industries/Ed25519Signature2018)
+- [RsaSignature2017](https://github.com/transmute-industries/RsaSignature2017)
+- [EcdsaKoblitzSignature2016](https://github.com/transmute-industries/EcdsaKoblitzSignature2016)
 
 Addionally it supports custom attribute for signature, and compaction and expansion to save space from PGP Armor.
 
@@ -63,6 +66,12 @@ Addionally it supports custom attribute for signature, and compaction and expans
   }
 }
 ```
+
+Commercial Support
+------------------
+
+Commercial support for this library is available upon request from
+Transmute: support@transmute.industries.
 
 ## W3C Links
 

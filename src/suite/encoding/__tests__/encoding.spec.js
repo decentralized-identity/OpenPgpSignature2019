@@ -1,7 +1,7 @@
-const fixtures = require("./__fixtures__");
+const fixtures = require("../../../__tests__/__fixtures__");
 const openpgp = require("openpgp");
 
-const { compact, expand } = require("../encoding");
+const { compact, expand } = require("../index");
 
 describe("encoding", () => {
   it("can compact and expand", async () => {

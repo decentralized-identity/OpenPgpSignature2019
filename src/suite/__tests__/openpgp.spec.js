@@ -1,4 +1,4 @@
-const fixtures = require("./__fixtures__");
+const fixtures = require("../../__tests__/__fixtures__");
 const openpgp = require("openpgp");
 
 describe("openpgp", () => {
