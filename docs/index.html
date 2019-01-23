@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WIP OpenPGP Signature Suite 2019</title>
+    <title>OpenPGP Signature Suite 2019</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
     <!--
       === NOTA BENE ===
@@ -117,7 +117,7 @@
   <body>
     <section id='abstract'>
       <p>
-This specification describes the OpenPGP Signature Suite created in 2018 for the
+This specification describes the OpenPGP Signature Suite created in 2019 for the
 Linked Data Signatures specification.
       </p>
     </section>
@@ -132,12 +132,12 @@ is not fit for production deployment.
     <section>
       <h2>Introduction</h2>
       <p>
-This specification describes the OpenPGP Signature Suite created in 2018 for the
+This specification describes the OpenPGP Signature Suite created in 2019 for the
 Linked Data Signatures [[LD-SIGNATURES]] specification. It uses the RDF
 Dataset CANONICALIZATION Algorithm [[RDF-DATASET-CANONICALIZATION]] to transform the
 input document into its canonical form. It uses SHA-256 [[RFC6234]] as the
-<a>message digest algorithm</a> and the RS256 algorithm defined in
-JSON Web Signatures [[RFC7515]] as the <a>signature algorithm</a>.
+<a>message digest algorithm</a> and the OpenPGP sign detached algorithm defined in
+OpenPGP.js [[OpenPgpSignatureAlgorithm]] as the <a>signature algorithm</a>.
       </p>
     </section>
 
@@ -145,7 +145,7 @@ JSON Web Signatures [[RFC7515]] as the <a>signature algorithm</a>.
       <h2>Terminology</h2>
       <p>
 The following terms are used to describe concepts involved in the
-generation and verification of the Linked Data Signature 2018
+generation and verification of the Linked Data Signature 2019
 <a>signature suite</a>.
       </p>
 
@@ -183,10 +183,10 @@ been modified in transit and came from someone possessing a particular secret.
     </section>
 
     <section>
-      <h2>The 2018 OpenPGP Signature Suite</h2>
+      <h2>The 2019 OpenPGP Signature Suite</h2>
 
       <p>
-The 2018 OpenPGP <a>signature suite</a> MUST be used in
+The 2019 OpenPGP <a>signature suite</a> MUST be used in
 conjunction with the signing and verification algorithms in the
 Linked Data Signatures [[LD-SIGNATURES]] specification. The suite consists of
 the following algorithms:
@@ -211,8 +211,8 @@ the following algorithms:
           </tr>
           <tr>
             <td>signatureAlgorithm</td>
-            <td>https://www.ietf.org/assignments/jwa-parameters#RS256</td>
-            <td>[[RFC7515]]</td>
+            <td>https://github.com/openpgpjs/openpgpjs/blob/e3cae6c34fd306177483769caf79e624ef438bfe/README.md#create-and-verify-detached-signatures</td>
+            <td>[[OpenPgpSignatureAlgorithm]]</td>
           </tr>
         </tbody>
 
@@ -222,9 +222,10 @@ the following algorithms:
       <h2>Modification to Algorithms</h2>
 
       <p>
-This signature suite uses a constrained profile of JSON Web Signatures
-which is specified in [[RFC7797]]. The signature algorithm used is
-the JSON Web Signature implementation of the RSASSA-PKCS1-v1_5 algorithm.
+This signature suite uses detached Open PGP Signatures as described in [[RFC4880]]. 
+The signature algorithm used is determined by the key type provided, 
+armored OpenPGP keys contain the information necessary to know the specific method,
+and this flexibility supports integration with exiting software systems that use OpenPGP, GPG or PGP.
 The steps to construct and verify the digital signature are defined below.
       <p>
 
@@ -232,24 +233,26 @@ The steps to construct and verify the digital signature are defined below.
         <h3>Modifications to Signature Algorithm</h3>
 
         <p>
-The <var>digital signature algorithm</var> defined in Section 7.1:
+The <var>digital signature algorithm</var> defined in Section 11.4:
 Signature Algorithm takes <var>tbs</var>, a <var>privateKey</var>,
 and </var><var>options</var> as inputs and produces a
 <var>signatureValue</var> as output.
         </p>
         <ol class="algorithm">
           <li>
-Take <var>tbs</var>, which is the data to be signed, as input and generate
-a JOSE Web Signature structure where the headers are:
-<code>{"alg":"RS256","b64":false,"crit":["b64"]}</code> and the
-payload is a URL-safe Base64 encoding of <var>tbs</var>.
+Take <var>tbs</var>, which is the data to be signed, an unlocked private key and options dictionary as input to the signature suite.
           </li>
           <li>
 Perform the
-<a href="https://datatracker.ietf.org/doc/html/rfc7518#section-3.3">RS256</a>
-JSON Web Signature digital signature algorithm specified in Section 3.3 of
-[[RFC7518]] and return the result as <em>signatureValue</em>.
+<a href="https://tools.ietf.org/html/rfc4880#section-11.4">sign detached</a> digital signature algorithm specified in Section 11.4 of
+[[RFC4880]] and return the result as <em>signatureValue</em>.
           </li>
+          <li>
+            The <em>signatureValue</em> will be in one of the two following formats depending on options:
+            <code>-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js...</code>.
+            or when passed with compact option:
+            <code>wl4EARMIAAYFAlw6KOAACgkQSnoBzSruDWC...</code>.
+                      </li>
         </ol>
 
       </section>
@@ -258,7 +261,7 @@ JSON Web Signature digital signature algorithm specified in Section 3.3 of
         <h3>Modifications to Signature Verification Algorithm</h3>
 
         <p>
-The <var>digital signature algorithm</var> defined in Section 7.2:
+The <var>digital signature algorithm</var> defined in Section 11.4:
 Signature Verification Algorithm takes the value to be verified,
 <em>tbv</em>, the <em>public key</em> to the signature algorithm
 and returns a boolean value.
@@ -266,9 +269,9 @@ and returns a boolean value.
         <ol class="algorithm">
           <li>
 Take <var>tbv</var> and perform the
-<a href="https://datatracker.ietf.org/doc/html/rfc7518#section-3.3">RS256</a>
-JSON Web Signature digital signature verification algorithm specified in
-Section 3.3 of [[RFC7518]]. If the result is a valid signature, return
+<a href="https://tools.ietf.org/html/rfc4880#section-11.4">Sign Detached</a>
+digital signature verification algorithm specified in
+Section 11.4 of [[RFC4880]]. If the result is a valid signature, return
 <code>true</code>, otherwise return <code>false</code>.
           </li>
         </ol>
@@ -287,6 +290,15 @@ software.
 
 <div class="issue">TODO: We need to add a complete list of security
 considerations.</div>
+
+<ol class="security_considerations">
+  <li>
+    This Signature Suite relies on the security and assumptions made by OpenPGP.js. 
+    Or any compatibile OpenPGP library implemented in a different language. 
+    We assume specifcally that sign and verify deteched are implemented safely for 
+    all supported key types.
+  </li>
+</ol>
     </section>
 
 
@@ -294,7 +306,7 @@ considerations.</div>
       <h2>Examples</h2>
 
       <p>
-A simple example of an OpenPGP 2018 signature:
+A simple example of an OpenPGP 2019 signature:
       </p>
 
       <pre class="example highlight">
