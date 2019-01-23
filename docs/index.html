@@ -15,7 +15,7 @@
         specStatus:           "CG-DRAFT",
 
         // the specification's short name, as in http://www.w3.org/TR/short-name/
-        shortName:            "lds-rsa2018",
+        shortName:            "lds-openpgp2019",
 
         // if you wish the publication date to be other than today, set this
         // publishDate:  "2009-08-06",
@@ -26,7 +26,7 @@
         // previousMaturity:  "WD",
 
         // if there a publicly available Editor's Draft, this is the link
-        edDraftURI:           "https://w3c-dvcg.github.io/lds-rsa2018/",
+        edDraftURI:           "https://transmute-industries.github.io/PROPOSAL-OpenPgpSignature2019/",
 
         // if this is a LCWD, uncomment and set the end of its review period
         // lcEnd: "2009-08-05",
@@ -38,8 +38,8 @@
         // editors, add as many as you like
         // only "name" is required
         editors:  [
-          { name: "Manu Sporny", url: "http://digitalbazaar.com/",
-            company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" }
+          { name: "Orie Steele", url: "https://transmute.industries/",
+            company: "Transmute Industries, Inc.", companyURL: "https://transmute.industries" }
         ],
 
         // authors, add as many as you like.
@@ -47,10 +47,8 @@
         // only "name" is required. Same format as editors.
 
         authors:  [
-            { name: "Dave Longley", url: "http://digitalbazaar.com/",
-              company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
-            { name: "Manu Sporny", url: "http://digitalbazaar.com/",
-              company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" }
+            { name: "Orie Steele", url: "https://transmute.industries/",
+            company: "Transmute Industries, Inc.", companyURL: "https://transmute.industries/" }
         ],
 
         // extend the bibliography entries
@@ -68,14 +66,14 @@
         otherLinks: [{
           key: "Source control",
           data: [{
-            value: "https://github.com/w3c-dvcg/lds-rsa2018/",
-            href: "https://github.com/w3c-dvcg/lds-rsa2018/"
+            value: "https://github.com/transmute-industries/PROPOSAL-OpenPgpSignature2019/",
+            href: "https://github.com/transmute-industries/PROPOSAL-OpenPgpSignature2019/"
           }]
         }, {
           key: "Issue Tracker",
           data: [{
-            value: "https://github.com/w3c-dvcg/lds-rsa2018/issues/",
-            href: "https://github.com/w3c-dvcg/lds-rsa2018/issues/"
+            value: "https://github.com/transmute-industries/PROPOSAL-OpenPgpSignature2019/issues/",
+            href: "https://github.com/transmute-industries/PROPOSAL-OpenPgpSignature2019/issues/"
           }]
         }],
 
@@ -118,7 +116,7 @@
   <body>
     <section id='abstract'>
       <p>
-This specification describes the RSA Signature Suite created in 2018 for the
+This specification describes the OpenPGP Signature Suite created in 2018 for the
 Linked Data Signatures specification.
       </p>
     </section>
@@ -133,7 +131,7 @@ is not fit for production deployment.
     <section>
       <h2>Introduction</h2>
       <p>
-This specification describes the RSA Signature Suite created in 2018 for the
+This specification describes the OpenPGP Signature Suite created in 2018 for the
 Linked Data Signatures [[LD-SIGNATURES]] specification. It uses the RDF
 Dataset CANONICALIZATION Algorithm [[RDF-DATASET-CANONICALIZATION]] to transform the
 input document into its canonical form. It uses SHA-256 [[RFC6234]] as the
@@ -184,10 +182,10 @@ been modified in transit and came from someone possessing a particular secret.
     </section>
 
     <section>
-      <h2>The 2018 RSA Signature Suite</h2>
+      <h2>The 2018 OpenPGP Signature Suite</h2>
 
       <p>
-The 2018 RSA <a>signature suite</a> MUST be used in
+The 2018 OpenPGP <a>signature suite</a> MUST be used in
 conjunction with the signing and verification algorithms in the
 Linked Data Signatures [[LD-SIGNATURES]] specification. The suite consists of
 the following algorithms:
@@ -295,7 +293,7 @@ considerations.</div>
       <h2>Examples</h2>
 
       <p>
-A simple example of an RSA 2018 signature:
+A simple example of an OpenPGP 2018 signature:
       </p>
 
       <pre class="example highlight">
@@ -303,7 +301,7 @@ A simple example of an RSA 2018 signature:
   "@context": ["http://schema.org/", "https://w3id.org/security/v1"],
   "description": "Hello world!",
   "proof": {
-    "type": "RsaSignature2018",
+    "type": "OpenPgpSignature2019",
     "created": "2017-10-24T05:33:31Z",
     "creator": "https://example.com/jdoe/keys/1",
     "domain": "example.com",
