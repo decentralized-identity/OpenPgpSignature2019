@@ -57,6 +57,17 @@ Commercial Support
 Commercial support for this library is available upon request from
 Transmute: support@transmute.industries.
 
+## License
+
+This library uses OpenPGP.js to sign and verify, as well as manage armored key encoding / decoding. OpenPGP.js is not modified in any way.
+
+[OpenPGP.js](https://github.com/openpgpjs/openpgpjs) is LGPL v3, see its [LICENSE](https://github.com/openpgpjs/openpgpjs/blob/master/LICENSE)
+
+It is our understanding that LGPL v3 dependencies can be included in an Apache 2 Licensed library so long as the following criteria are satisfied:
+
+- We state we are using OpenPGP.js and provide a link to its source code, license and copyright.
+- You can modify openpgp.js, it is in node_modules.
+
 ## W3C Links
 
 #### [Linked Data Cryptographic Suite Registry](https://w3c-ccg.github.io/ld-cryptosuite-registry)

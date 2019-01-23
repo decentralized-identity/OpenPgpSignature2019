@@ -23,8 +23,8 @@
     "type": "git",
     "url": "git+https://github.com/transmute-industries/PROPOSAL-openpgpsignature2019.git"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "Orie Steele",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/transmute-industries/PROPOSAL-openpgpsignature2019/issues"
   },
