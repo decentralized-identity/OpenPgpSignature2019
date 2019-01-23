@@ -137,7 +137,7 @@ Linked Data Signatures [[LD-SIGNATURES]] specification. It uses the RDF
 Dataset CANONICALIZATION Algorithm [[RDF-DATASET-CANONICALIZATION]] to transform the
 input document into its canonical form. It uses SHA-256 [[RFC6234]] as the
 <a>message digest algorithm</a> and the OpenPGP sign detached algorithm defined in
-OpenPGP.js [[OpenPgpSignatureAlgorithm]] as the <a>signature algorithm</a>.
+OpenPGP.js [[RFC4880]] as the <a>signature algorithm</a>.
       </p>
     </section>
 
@@ -211,8 +211,8 @@ the following algorithms:
           </tr>
           <tr>
             <td>signatureAlgorithm</td>
-            <td>https://github.com/openpgpjs/openpgpjs/blob/e3cae6c34fd306177483769caf79e624ef438bfe/README.md#create-and-verify-detached-signatures</td>
-            <td>[[OpenPgpSignatureAlgorithm]]</td>
+            <td><a href='https://github.com/openpgpjs/openpgpjs/blob/e3cae6c34fd306177483769caf79e624ef438bfe/README.md#create-and-verify-detached-signatures'>Open PGP Detached Signatures</a></td>
+            <td>[[RFC4880]]</td>
           </tr>
         </tbody>
 
@@ -318,7 +318,7 @@ A simple example of an OpenPGP 2019 signature:
     "created": "2017-10-24T05:33:31Z",
     "creator": "https://example.com/jdoe/keys/1",
     "domain": "example.com",
-    "signatureValue": "eyiOiJJ0eXAK...EjXkgFWFO"
+    "signatureValue": "wl4EARMIAAYFAlw6...KOAACgkQSnoBzSruDWC"
   }
 }
       </pre>
