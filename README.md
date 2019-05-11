@@ -100,6 +100,16 @@ const signedData = await sign({
 // }
 ```
 
+## GitHub DID Example
+
+Here is an example of it being used in a web app.
+
+https://github-did.com/verify/eyJoZWxsbyI6IndvcmxkIiwicHJvb2YiOnsidHlwZSI6Ik9wZW5QZ3BTaWduYXR1cmUyMDE5IiwiY3JlYXRvciI6ImRpZDpnaGRpZDp0cmFuc211dGUtaW5kdXN0cmllc35naXRodWItZGlkfjFiZWQxMTE0MDU0N2I4NDA3NDc4YmRmMjY1MGRiNTBhNWEwYzE4ZWYyYWU0Y2FmMjBlODE4YTk0MzM5MjNjMmEja2lkPTFiZWQxMTE0MDU0N2I4NDA3NDc4YmRmMjY1MGRiNTBhNWEwYzE4ZWYyYWU0Y2FmMjBlODE4YTk0MzM5MjNjMmEiLCJkb21haW4iOiJnaXRodWItZGlkIiwibm9uY2UiOiI1NmQ2M2U4NWQwYjg3MmVhNjJkOTBlMWJkZmE5NzcxNSIsImNyZWF0ZWQiOiIyMDE5LTA1LTExVDA0OjI1OjAxLjk2M1oiLCJzaWduYXR1cmVWYWx1ZSI6Ii0tLS0tQkVHSU4gUEdQIFNJR05BVFVSRS0tLS0tXHJcblZlcnNpb246IE9wZW5QR1AuanMgdjQuNC4xMFxyXG5Db21tZW50OiBodHRwczovL29wZW5wZ3Bqcy5vcmdcclxuXHJcbndsNEVBUk1JQUFZRkFseldUcVVBQ2drUS9ERk11aHh2WUdiOFN3RUEwYkVSa0N6UnE2eUMwcnlIZ1VPQ1xyXG5CeDlTNUluRmM2RmNOS3M5cGRMNzhTa0EvaVVxZkNCNGJjR0g4RERXY0lGM0xQaFdzYld6RmFaVVJySS9cclxuRFRzMHNDLytcclxuPUo4VS9cclxuLS0tLS1FTkQgUEdQIFNJR05BVFVSRS0tLS0tXHJcbiJ9fQ
+
+
+You can import the wallet file containing the keys used [here](https://github-did.com/wallet), and use the sign demo [here](https://github-did.com/sign/new)
+
+
 ## Commercial Support
 
 Commercial support for this library is available upon request from
