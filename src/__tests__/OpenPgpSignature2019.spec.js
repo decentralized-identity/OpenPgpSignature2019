@@ -2,6 +2,8 @@ const fixtures = require("./__fixtures__");
 const openpgp = require("openpgp");
 const { sign, verify } = require("../index");
 
+jest.setTimeout(20 * 1000);
+
 describe("OpenPgpSignature2019", () => {
   let privateKey;
   beforeAll(async () => {
