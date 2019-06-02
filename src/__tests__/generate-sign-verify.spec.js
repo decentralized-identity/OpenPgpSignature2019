@@ -53,7 +53,6 @@ describe("generate sign verify", () => {
     };
 
     const customLoader = (url, callback) => {
-      // console.log(url);
       if (url in CONTEXTS) {
         return callback(null, {
           contextUrl: null, // this is for a context via a link header

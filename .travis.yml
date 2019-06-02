@@ -6,6 +6,6 @@ install:
   - npm i
 
 script:
-  - npm run test
+  - npm run coverage
   - npm run codecov
   - npm run coveralls

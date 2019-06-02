@@ -113,6 +113,6 @@ describe("works with dids", () => {
       }
     });
 
-    // expect(verified).toBe(true);
+    expect(verified).toBe(true);
   });
 });

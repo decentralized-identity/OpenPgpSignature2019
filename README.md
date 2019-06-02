@@ -20,94 +20,195 @@ Addionally it supports custom attribute for signature, and compaction and expans
 
 ## Example Use
 
-```js
-const openpgp = require("openpgp");
-const OpenPgpSignature2019 = require("@transmute/openpgpsignature2019");
+See [generate-sign-verify.spec.js](./src/__tests__/generate-sign-verify.spec.js).
 
-const keypair = {
-  publicKey:
-    "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxk8EXDT/8hMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAzRMiYWxpY2VA\r\nZXhhbXBsZS5jb20iwncEEBMIAB8FAlw0//IGCwkHCAMCBBUICgIDFgIBAhkB\r\nAhsDAh4BAAoJEEp6Ac0q7g1gohoBAP0pOtmgx6TSpL94tCTFL8jxjphNBfSG\r\neugvsDf/huzyAP9tSDRRCA6src6v/orOChQ0BbcM8zXVQw8K33I2yxAWRM5T\r\nBFw0//ISBSuBBAAKAgMENtibiizsNERI4B9yj5Xb6UC8j23rzup3f77P4VMg\r\nYEQxYQeunmptCoNCv2xbKXexKgUH+bIODI7VtoPlJTDbgAMBCAfCYQQYEwgA\r\nCQUCXDT/8gIbDAAKCRBKegHNKu4NYPkTAQDXNkA3BUEQEOVZ4MGMU3K1Z+Kp\r\n4jnuQCtaX6fQDMseBAEA8iIId8uCS7KXkQhxD9hPCZQ52ttDZI8S2/IRx/+S\r\nZF8=\r\n=/os5\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n",
-  privateKey:
-    "-----BEGIN PGP PRIVATE KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxaIEXDT/8hMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuA/gkDCAAAAAAA\r\nAAAA4AAAAAAAAAAAAAAAAAAAAAB5UQ0maxamLRPs6EDvbJQVSBQYKcsF4adJ\r\njaxjHC3SQTnfNNLDsH5gegr1GDP5F6QjmSB2/AHNEyJhbGljZUBleGFtcGxl\r\nLmNvbSLCdwQQEwgAHwUCXDT/8gYLCQcIAwIEFQgKAgMWAgECGQECGwMCHgEA\r\nCgkQSnoBzSruDWCiGgEA/Sk62aDHpNKkv3i0JMUvyPGOmE0F9IZ66C+wN/+G\r\n7PIA/21INFEIDqytzq/+is4KFDQFtwzzNdVDDwrfcjbLEBZEx6YEXDT/8hIF\r\nK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/hUyBgRDFhB66e\r\nam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAAwEIB/4JAwgAAAAAAAAAAOAA\r\nAAAAAAAAAAAAAAAAAAAAeVENJmsWpi0T7OhA72yUFUgUGCnLBeGnSY2sYxwt\r\n0kE53zTSw7B+YHoK9Rgz+RekI5kgdvwBwmEEGBMIAAkFAlw0//ICGwwACgkQ\r\nSnoBzSruDWD5EwEA1zZANwVBEBDlWeDBjFNytWfiqeI57kArWl+n0AzLHgQB\r\nAPIiCHfLgkuyl5EIcQ/YTwmUOdrbQ2SPEtvyEcf/kmRf\r\n=uotq\r\n-----END PGP PRIVATE KEY BLOCK-----\r\n"
+```js
+const keys = await OpenPgpSignature2019.generateKey({
+  userIds: [
+    {
+      name: "anon@example.com"
+    }
+  ],
+  curve: "secp256k1"
+});
+// Looks like this:
+// const keys = {
+//   publicKey:
+//     "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxk8EXPQjDhMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAzRIiYW5vbkBl\r\neGFtcGxlLmNvbSLCdwQQEwgAHwUCXPQjDgYLCQcIAwIEFQgKAgMWAgECGQEC\r\nGwMCHgEACgkQOqx3TfQyHavsPAEA7Ah6P2cs9B/72bfMiWgeBcEOTIIBjaQ+\r\nHycfG5ldmpQBAP30Tqo0yuwiaf/qDOLnzrXPQIyz1noKdYpXgGOpzivWzlME\r\nXPQjDhIFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/hUyBg\r\nRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAAwEIB8JhBBgTCAAJ\r\nBQJc9CMOAhsMAAoJEDqsd030Mh2re2cA/jr04uWORrq1rXnfGWUeg3uSc0Dw\r\nhzSqweh/a64RHkUvAP0d6whaffpbnb2pnlivCraq+EyBPuDrJFXRpFMA7v6N\r\nQw==\r\n=kUuh\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n",
+//   privateKey:
+//     "-----BEGIN PGP PRIVATE KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxXQEXPQjDhMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAAAEAtt9uYl73\r\noEnh1lAB1SqGxc1o1c6C4lx4myXH3P+WRD4SgM0SImFub25AZXhhbXBsZS5j\r\nb20iwncEEBMIAB8FAlz0Iw4GCwkHCAMCBBUICgIDFgIBAhkBAhsDAh4BAAoJ\r\nEDqsd030Mh2r7DwBAOwIej9nLPQf+9m3zIloHgXBDkyCAY2kPh8nHxuZXZqU\r\nAQD99E6qNMrsImn/6gzi5861z0CMs9Z6CnWKV4Bjqc4r1sd4BFz0Iw4SBSuB\r\nBAAKAgMENtibiizsNERI4B9yj5Xb6UC8j23rzup3f77P4VMgYEQxYQeunmpt\r\nCoNCv2xbKXexKgUH+bIODI7VtoPlJTDbgAMBCAcAAQC2325iXvegSeHWUAHV\r\nKobFzWjVzoLiXHibJcfc/5ZEPhKAwmEEGBMIAAkFAlz0Iw4CGwwACgkQOqx3\r\nTfQyHat7ZwD+OvTi5Y5GurWted8ZZR6De5JzQPCHNKrB6H9rrhEeRS8A/R3r\r\nCFp9+ludvameWK8Ktqr4TIE+4OskVdGkUwDu/o1D\r\n=EnRP\r\n-----END PGP PRIVATE KEY BLOCK-----\r\n",
+//   revocationCertificate:
+//     "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\nComment: This is a revocation certificate\r\n\r\nwmEEIBMIAAkFAlz0Iw4CHQAACgkQOqx3TfQyHavq6gEAziFfOR1SeAzJd9LW\r\nm7EqSmYtJA+3c2Am8hyUnYTF92oBAOKcWz/h2UbTDJnqXSRa9j1MzRilhQKs\r\n8Bo+tH1N3smt\r\n=RDKz\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n"
+// };
+
+const doc = {
+  "@context": {
+    schema: "http://schema.org/",
+    name: "schema:name",
+    homepage: "schema:url",
+    image: "schema:image"
+  },
+  name: "Manu Sporny",
+  homepage: "https://manu.sporny.org/",
+  image: "https://manu.sporny.org/images/manu.png"
+};
+
+let signedData = await OpenPgpSignature2019.sign({
+  data: doc,
+  privateKey: keys.privateKey,
+  proof: {
+    verificationMethod: "https://example.com/i/alice/keys/1",
+    proofPurpose: "assertionMethod"
+  }
+});
+
+// Looks like this:
+// let signedData = {
+//   "@context": "https://w3id.org/security/v2",
+//   "http://schema.org/image": "https://manu.sporny.org/images/manu.png",
+//   "http://schema.org/name": "Manu Sporny",
+//   "http://schema.org/url": "https://manu.sporny.org/",
+//   proof: {
+//     verificationMethod: "https://example.com/i/alice/keys/1",
+//     proofPurpose: "assertionMethod",
+//     created: "2019-06-02T20:24:21.635Z",
+//     type: "OpenPgpSignature2019",
+//     signatureValue:
+//       "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nwl4EARMIAAYFAlz0MHcACgkQlSqpRbrzz18c1wEAsIUoldZyDKFYJNm5feYV\r\nq1YnajCSPBNCTtXnl6cOUb8A/1cH8rc7Mrbq6ZIlIbvbhpAEo7tu7C5GUtfB\r\njFThEyqU\r\n=zYH+\r\n-----END PGP SIGNATURE-----\r\n"
+//   }
+// };
+
+// We need to define a custom loader, because "https://example.com/i/alice/keys/1" is not a public url.
+const customLoader = (url, callback) => {
+  const CONTEXTS = {
+    "https://example.com/i/alice/keys/1": {
+      "@context": "https://w3id.org/security/v2",
+      type: "OpenPgpVerificationKey2019",
+      id: "https://example.com/i/alice/keys/1",
+      controller: "https://example.com/i/alice",
+      publicKeyAsc:
+        "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxk8EXPQjDhMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAzRIiYW5vbkBl\r\neGFtcGxlLmNvbSLCdwQQEwgAHwUCXPQjDgYLCQcIAwIEFQgKAgMWAgECGQEC\r\nGwMCHgEACgkQOqx3TfQyHavsPAEA7Ah6P2cs9B/72bfMiWgeBcEOTIIBjaQ+\r\nHycfG5ldmpQBAP30Tqo0yuwiaf/qDOLnzrXPQIyz1noKdYpXgGOpzivWzlME\r\nXPQjDhIFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/hUyBg\r\nRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAAwEIB8JhBBgTCAAJ\r\nBQJc9CMOAhsMAAoJEDqsd030Mh2re2cA/jr04uWORrq1rXnfGWUeg3uSc0Dw\r\nhzSqweh/a64RHkUvAP0d6whaffpbnb2pnlivCraq+EyBPuDrJFXRpFMA7v6N\r\nQw==\r\n=kUuh\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n"
+    }
+  };
+  if (url in CONTEXTS) {
+    return callback(null, {
+      contextUrl: null, // this is for a context via a link header
+      document: CONTEXTS[url], // this is the actual document that was loaded
+      documentUrl: url // this is the actual context URL after redirects
+    });
+  }
+  return nodeDocumentLoader(url, callback);
+};
+
+const verified = await OpenPgpSignature2019.verify({
+  data: signedData,
+  options: {
+    documentLoader: customLoader
+  }
+});
+
+// we expect verified === true
+```
+
+### Working With DIDs
+
+DIDs are supported through a custom document loader, which uses the DID Method resolver.
+
+See [working-with-dids.spec.js](./src/__tests__/working-with-dids.spec.js).
+
+```js
+const resolver = {
+  // this is a stub / example... see https://uniresolver.io/
+  resolve: did => {
+    return {
+      "@context": "https://w3id.org/did/v1",
+      id: "did:example:123",
+      publicKey: [
+        {
+          "@context": "https://w3id.org/security/v2",
+          type: "OpenPgpVerificationKey2019",
+          id: "did:example:123#kid=456",
+          controller: "did:example:123",
+          publicKeyAsc:
+            "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxk8EXPQjDhMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAzRIiYW5vbkBl\r\neGFtcGxlLmNvbSLCdwQQEwgAHwUCXPQjDgYLCQcIAwIEFQgKAgMWAgECGQEC\r\nGwMCHgEACgkQOqx3TfQyHavsPAEA7Ah6P2cs9B/72bfMiWgeBcEOTIIBjaQ+\r\nHycfG5ldmpQBAP30Tqo0yuwiaf/qDOLnzrXPQIyz1noKdYpXgGOpzivWzlME\r\nXPQjDhIFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/hUyBg\r\nRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAAwEIB8JhBBgTCAAJ\r\nBQJc9CMOAhsMAAoJEDqsd030Mh2re2cA/jr04uWORrq1rXnfGWUeg3uSc0Dw\r\nhzSqweh/a64RHkUvAP0d6whaffpbnb2pnlivCraq+EyBPuDrJFXRpFMA7v6N\r\nQw==\r\n=kUuh\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n"
+        }
+      ],
+      service: [
+        {
+          // used to retrieve Verifiable Credentials associated with the DID
+          type: "VerifiableCredentialService",
+          serviceEndpoint: "https://example.com/vc/"
+        }
+      ]
+    };
+  }
+};
+
+const customLoader = (id, callback) => {
+  // are we handling a DID? (probably you want better validation than this.)
+  if (id.indexOf("did:example") === 0) {
+    const doc = resolver.resolve(id);
+    // iterate public keys, find the correct id...
+    // use different logic for other DID properties...
+    // see https://w3c-ccg.github.io/did-spec/
+    for (publicKey of doc.publicKey) {
+      if (publicKey.id === id) {
+        return callback(null, {
+          contextUrl: null, // this is for a context via a link header
+          document: publicKey, // this is the actual document that was loaded
+          documentUrl: id // this is the actual context URL after redirects
+        });
+      }
+    }
+  }
+
+  //   are we handling a custom context?
+  if (id in CONTEXTS) {
+    return callback(null, {
+      contextUrl: null, // this is for a context via a link header
+      document: CONTEXTS[id], // this is the actual document that was loaded
+      documentUrl: id // this is the actual context URL after redirects
+    });
+  }
+
+  //   is this a published (public) context?
+  return nodeDocumentLoader(id, callback);
 };
 
 const data = {
-  "@context": "https://w3id.org/identity/v1",
-  givenName: "Alice"
+  "@context": "https://example.com/coolCustomContext/v1",
+  myCustomProperty1337: "deadbeef"
 };
 
-const signedData = await OpenPgpSignature2019.sign({
+let signedData = await OpenPgpSignature2019.sign({
   data,
-  domain: "github-did",
-  signatureAttribute: "proof",
-  // compact: true,
-  creator: "did:example:123",
-  privateKey: (await openpgp.key.readArmored(keypair.privateKey)).keys[0]
-});
-
-// signedData = {
-//   "@context": "https://w3id.org/identity/v1",
-//   "givenName": "Alice",
-//   "proof": {
-//     "type": "OpenPgpSignature2019",
-//     "creator": "did:example:123",
-//     "domain": "example.com",
-//     "nonce": "a7c3d7657bd597b0c94d0e6f91227fde",
-//     "created": "2019-01-12T17:49:15.679Z",
-//     "signatureValue": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nwl4EARMIAAYFAlw6KJwACgkQSnoBzSruDWCONgD+JToi7bLcxGJsj5ROGGb1\r\n2eEIKU7TRAfSaSAIirRDuycA/RhfTM29i8+YkuigQAwwEDJ111WzXDdFnR0w\r\nj9W4NkAJ\r\n=q5gA\r\n-----END PGP SIGNATURE-----\r\n"
-//   }
-// }
-
-const verified = await verify({
-  data: signedData,
-  signatureAttribute: "proof",
-  publicKey: fkeypair.publicKey
-});
-
-// we expect verified to be true.
-```
-
-See the [tests](./src/__tests__/OpenPgpSignature2019.spec.js) for more usage examples.
-
-See also GitHubDID for a sample project that uses this suite in its library:
-
-- [Library](https://github.com/decentralized-identity/github-did/blob/master/packages/lib/src/index.js#L127)
-- [Test](https://github.com/decentralized-identity/github-did/blob/master/packages/lib/src/__tests__/didWallet.spec.js#L29)
-
-### Signed Compact
-
-```js
-const signedData = await sign({
-  data,
-  signatureOptions: {
-    creator: "did:example:123"
+  privateKey: "PRIVATE_KEY",
+  proof: {
+    verificationMethod: "did:example:123#kid=456", // notice this is not a URL!
+    proofPurpose: "assertionMethod"
   },
   options: {
-    compact: true
-  },
-  privateKey
+    documentLoader: customLoader,
+    passphrase: "correct horse battery staple", // if required
+    compact: true // remove "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js..."
+  }
 });
 
-// signedData = {
-//   "@context": "https://w3id.org/identity/v1",
-//   "givenName": "Alice",
-//   "proof": {
-//     "type": "OpenPgpSignature2019",
-//     "creator": "did:example:123",
-//     "nonce": "6662f8ffb3859e1caea1657999a8b955",
-//     "created": "2019-01-12T17:50:23.492Z",
-//     "signatureValue": "wl4EARMIAAYFAlw6KOAACgkQSnoBzSruDWC2RgD7BMIKlodtaNFk2ZTUDoAoCyixxGI82vbihWV6mZoVSxAA/2ppmNLf81F76rRBbWfuQdZJaRKVKu6pRk8uU8mJn4Tt=hKRg"
-//   }
-// }
+const verified = await OpenPgpSignature2019.verify({
+  data: signedData,
+  options: {
+    documentLoader: customLoader
+  }
+});
+
+if (verified) {
+  console.log(
+    "Signature verification succeeded...But you might need to do more validation..."
+  );
+} else {
+  console.log("Signature verification failed... The key might be revoked!");
+}
 ```
-
-## GitHub DID Example
-
-Here is an example of it being used in a [web app](https://github-did.com).
-
-https://github-did.com/verify/eyJAY29udGV4dCI6Imh0dHBzOi8vdzNpZC5vcmcvaWRlbnRpdHkvdjEiLCJnaXZlbk5hbWUiOiJBbGljZSIsInByb29mIjp7InR5cGUiOiJPcGVuUGdwU2lnbmF0dXJlMjAxOSIsImNyZWF0b3IiOiJkaWQ6Z2l0aHViOk9SMTMja2lkPXVYOWtQUy1MSVBaY0pTNWFTMDdkSktMeVd5Ny1UVi1QZTA5YnpIN0hpa1UiLCJkb21haW4iOiJHaXRIdWJESUQiLCJub25jZSI6ImZjNzM2M2RkNWVkYjNlZDM5YmYwMGIwOGNkNTJkMDhlIiwiY3JlYXRlZCI6IjIwMTktMDUtMTVUMDQ6MzY6MTguMzE4WiIsInNpZ25hdHVyZVZhbHVlIjoiLS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS1cclxuVmVyc2lvbjogT3BlblBHUC5qcyB2NC41LjFcclxuQ29tbWVudDogaHR0cHM6Ly9vcGVucGdwanMub3JnXHJcblxyXG53bDRFQVJNSUFBWUZBbHpibDBJQUNna1E5dDlWMzRLR1R6ZmNNd0VBbnJqSGVtdFl5WG1VVXRWV21aN1pcclxueUpBeEtUc3BJSEVtMmlaWDB6eGpjUVlBLzE2UDI0S1BmUFZxWFdXTmZONWhSK2poM3dXSGFkVWxmSzZoXHJcbmczTDhVTExxXHJcbj12Sy9BXHJcbi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLVxyXG4ifX0
-
-You can verify this claim I signed.
 
 ## Commercial Support
 
