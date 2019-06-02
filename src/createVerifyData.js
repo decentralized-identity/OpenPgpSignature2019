@@ -13,12 +13,11 @@ const sha256 = data => {
 
 const cannonizeSignatureOptions = signatureOptions => {
   let _signatureOptions = {
-    ...signatureOptions,
-    "@context": "https://w3id.org/security/v2"
+    "@context": "https://w3id.org/security/v2",
+    created: signatureOptions.created,
+    proofPurpose: signatureOptions.proofPurpose,
+    verificationMethod: signatureOptions.verificationMethod
   };
-  delete _signatureOptions.jws;
-  delete _signatureOptions.signatureValue;
-  delete _signatureOptions.proofValue;
   return canonize(_signatureOptions);
 };
 
@@ -29,19 +28,12 @@ const cannonizeDocument = doc => {
 };
 
 const createVerifyData = async (data, signatureOptions) => {
-  if (signatureOptions.creator) {
-    signatureOptions.verificationMethod = signatureOptions.creator;
-  }
-  if (!signatureOptions.verificationMethod) {
-    throw new Error("signatureOptions.verificationMethod is required");
-  }
-  if (!signatureOptions.created) {
-    signatureOptions.created = new Date().toISOString();
-  }
+  const documentLoader = signatureOptions.documentLoader
+    ? signatureOptions.documentLoader
+    : jsonld.documentLoader;
 
-  signatureOptions.type = "OpenPgpSignature2019";
+  const [expanded] = await jsonld.expand(data, { documentLoader });
 
-  const [expanded] = await jsonld.expand(data);
   const framed = await jsonld.compact(
     expanded,
     "https://w3id.org/security/v2",

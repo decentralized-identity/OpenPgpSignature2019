@@ -1,6 +1,4 @@
-const openpgp = require("openpgp");
-
-const { compact, expand } = require("../index");
+const OpenPgpSignature2019 = require("../index");
 
 const keys = {
   publicKey:
@@ -11,42 +9,52 @@ const keys = {
     "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\nComment: This is a revocation certificate\r\n\r\nwmEEIBMIAAkFAlz0Iw4CHQAACgkQOqx3TfQyHavq6gEAziFfOR1SeAzJd9LW\r\nm7EqSmYtJA+3c2Am8hyUnYTF92oBAOKcWz/h2UbTDJnqXSRa9j1MzRilhQKs\r\n8Bo+tH1N3smt\r\n=RDKz\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n"
 };
 
-const verifyData =
-  "3ff0236edd477db50411ebd9647f6fffc22a7305856adb00fefae0f05cc1876a14875216350953880b47d58a3ceac062c76ba953a984538125924cbea1d2488e";
+const doc = {
+  "@context": {
+    schema: "http://schema.org/",
+    name: "schema:name",
+    homepage: "schema:url",
+    image: "schema:image"
+  },
+  name: "Manu Sporny",
+  homepage: "https://manu.sporny.org/",
+  image: "https://manu.sporny.org/images/manu.png"
+};
 
-describe("encoding", () => {
-  it("can compact and expand", async () => {
-    const { signature } = await openpgp.sign({
-      message: openpgp.cleartext.fromText(verifyData), // CleartextMessage or Message object
-      privateKeys: [(await openpgp.key.readArmored(keys.privateKey)).keys[0]], // for signing
-      detached: true
+jest.setTimeout(10 * 1000);
+
+describe("compact options", () => {
+  it("default is not compact", async () => {
+    let signedData = await OpenPgpSignature2019.sign({
+      data: doc,
+      privateKey: keys.privateKey,
+      proof: {
+        verificationMethod: "https://example.com/i/alice/keys/1",
+        proofPurpose: "assertionMethod"
+      }
     });
 
-    const compacted = compact(signature);
-    const expanded = expand(compacted);
+    // console.log(signedData.proof.signatureValue)
 
-    const verified = await openpgp.verify({
-      message: openpgp.cleartext.fromText(verifyData), // CleartextMessage or Message object
-      signature: await openpgp.signature.readArmored(expanded), // parse detached signature
-      publicKeys: (await openpgp.key.readArmored(keys.publicKey)).keys // for verification
-    });
-    const validity = verified.signatures[0].valid; // true
-    expect(validity).toBe(true);
+    expect(
+      signedData.proof.signatureValue.indexOf("-----BEGIN PGP SIGNATURE-----")
+    ).toBe(0);
   });
-
-  it("idempotent", async () => {
-    const { signature } = await openpgp.sign({
-      message: openpgp.cleartext.fromText(verifyData), // CleartextMessage or Message object
-      privateKeys: [(await openpgp.key.readArmored(keys.privateKey)).keys[0]], // for signing
-      detached: true
+  it("can be compacted", async () => {
+    let signedData = await OpenPgpSignature2019.sign({
+      data: doc,
+      privateKey: keys.privateKey,
+      proof: {
+        verificationMethod: "https://example.com/i/alice/keys/1",
+        proofPurpose: "assertionMethod"
+      },
+      options: {
+        compact: true
+      }
     });
-    const expanded = expand(signature);
 
-    expect(expanded).toBe(signature);
-
-    const compacted = compact(signature);
-    const compacted2 = compact(compacted);
-
-    expect(compacted2).toBe(compacted);
+    expect(
+      signedData.proof.signatureValue.indexOf("-----BEGIN PGP SIGNATURE-----")
+    ).toBe(-1);
   });
 });

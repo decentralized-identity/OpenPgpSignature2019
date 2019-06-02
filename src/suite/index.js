@@ -3,9 +3,21 @@ const openpgp = require("openpgp");
 const encoding = require("./encoding");
 
 const sign = async ({ verifyData, privateKey, options }) => {
+  let privateKeyObject = privateKey;
+  if (typeof privateKey === "string") {
+    privateKeyObject = (await openpgp.key.readArmored(privateKey)).keys[0];
+  }
+
+  if (privateKeyObject.keyPacket.isEncrypted) {
+    if (!options.passphrase) {
+      throw new Error("passphrase is required in signature options.");
+    }
+    await privateKeyObject.decrypt(options.passphrase);
+  }
+
   const { signature } = await openpgp.sign({
     message: openpgp.cleartext.fromText(verifyData), // CleartextMessage or Message object
-    privateKeys: [privateKey], // for signing
+    privateKeys: [privateKeyObject], // for signing
     detached: true
   });
 

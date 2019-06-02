@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/index.js",
   "scripts": {
-    "test": "jest --coverage  -- ",
+    "test": "jest",
     "codecov": "codecov",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
@@ -32,7 +32,8 @@
   "devDependencies": {
     "codecov": "^3.1.0",
     "coveralls": "^3.0.2",
-    "jest": "^23.6.0"
+    "jest": "^24.8.0",
+    "jsonld-signatures": "^4.2.0"
   },
   "dependencies": {
     "jsonld": "^1.4.0",

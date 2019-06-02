@@ -1,4 +1,3 @@
-const fixtures = require("../../__tests__/__fixtures__");
 const openpgp = require("openpgp");
 
 describe("openpgp", () => {
@@ -7,17 +6,18 @@ describe("openpgp", () => {
     const keypair = await openpgp.generateKey({
       userIds: [
         {
-          name: fixtures.email
+          name: "bob@exmple.com"
         }
       ],
       curve: "secp256k1",
-      passphrase: fixtures.passphrase
+      passphrase: "correct horse battery staple"
     });
     expect(keypair).toBeDefined();
     const privKeyObj = (await openpgp.key.readArmored(
       keypair.privateKeyArmored
     )).keys[0];
-    await privKeyObj.decrypt(fixtures.passphrase);
+    await privKeyObj.decrypt("correct horse battery staple");
+
     const data = "hello";
     const signed = await openpgp.sign({
       message: openpgp.cleartext.fromText(data), // CleartextMessage or Message object
