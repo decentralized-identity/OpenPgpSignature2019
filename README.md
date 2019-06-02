@@ -86,7 +86,7 @@ const customLoader = (url, callback) => {
       type: "OpenPgpVerificationKey2019",
       id: "https://example.com/i/alice/keys/1",
       controller: "https://example.com/i/alice",
-      publicKeyAsc:
+      publicKeyPgp:
         "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxk8EXPQjDhMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAzRIiYW5vbkBl\r\neGFtcGxlLmNvbSLCdwQQEwgAHwUCXPQjDgYLCQcIAwIEFQgKAgMWAgECGQEC\r\nGwMCHgEACgkQOqx3TfQyHavsPAEA7Ah6P2cs9B/72bfMiWgeBcEOTIIBjaQ+\r\nHycfG5ldmpQBAP30Tqo0yuwiaf/qDOLnzrXPQIyz1noKdYpXgGOpzivWzlME\r\nXPQjDhIFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/hUyBg\r\nRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAAwEIB8JhBBgTCAAJ\r\nBQJc9CMOAhsMAAoJEDqsd030Mh2re2cA/jr04uWORrq1rXnfGWUeg3uSc0Dw\r\nhzSqweh/a64RHkUvAP0d6whaffpbnb2pnlivCraq+EyBPuDrJFXRpFMA7v6N\r\nQw==\r\n=kUuh\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n"
     }
   };
@@ -129,7 +129,7 @@ const resolver = {
           type: "OpenPgpVerificationKey2019",
           id: "did:example:123#kid=456",
           controller: "did:example:123",
-          publicKeyAsc:
+          publicKeyPgp:
             "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxk8EXPQjDhMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAzRIiYW5vbkBl\r\neGFtcGxlLmNvbSLCdwQQEwgAHwUCXPQjDgYLCQcIAwIEFQgKAgMWAgECGQEC\r\nGwMCHgEACgkQOqx3TfQyHavsPAEA7Ah6P2cs9B/72bfMiWgeBcEOTIIBjaQ+\r\nHycfG5ldmpQBAP30Tqo0yuwiaf/qDOLnzrXPQIyz1noKdYpXgGOpzivWzlME\r\nXPQjDhIFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/hUyBg\r\nRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAAwEIB8JhBBgTCAAJ\r\nBQJc9CMOAhsMAAoJEDqsd030Mh2re2cA/jr04uWORrq1rXnfGWUeg3uSc0Dw\r\nhzSqweh/a64RHkUvAP0d6whaffpbnb2pnlivCraq+EyBPuDrJFXRpFMA7v6N\r\nQw==\r\n=kUuh\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n"
         }
       ],

@@ -10,7 +10,7 @@ const resolvePublicKey = async (documentLoader, verificationMethod) => {
       return resolve(data);
     });
   });
-  return result.document.publicKeyAsc;
+  return result.document.publicKeyPgp;
 };
 
 const verify = async ({ data, options }) => {

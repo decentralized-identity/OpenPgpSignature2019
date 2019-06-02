@@ -6,7 +6,7 @@ const nodeDocumentLoader = jsonld.documentLoaders.node();
 
 const OpenPgpSignature2019 = require("../index");
 
-const publicKeyAsc = fs
+const publicKeyPgp = fs
   .readFileSync(path.resolve(__dirname, "./publicKey.asc"))
   .toString();
 
@@ -19,7 +19,7 @@ const publicKeyObject = {
   type: "OpenPgpVerificationKey2019",
   id: "did:example:123#kid=456",
   controller: "did:example:123",
-  publicKeyAsc
+  publicKeyPgp
 };
 
 // define a mapping of context URL => context doc

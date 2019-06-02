@@ -42,7 +42,7 @@ describe("generate sign verify", () => {
       type: "OpenPgpVerificationKey2019",
       id: "https://example.com/i/alice/keys/1",
       controller: "https://example.com/i/alice",
-      publicKeyAsc: keys.publicKey
+      publicKeyPgp: keys.publicKey
     };
 
     // define a mapping of context URL => context doc
