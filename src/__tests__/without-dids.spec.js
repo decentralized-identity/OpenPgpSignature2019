@@ -5,8 +5,20 @@ const OpenPgpSignature2019 = require("../index");
 
 jest.setTimeout(10 * 1000);
 
-describe("generate sign verify", () => {
-  it("can generate sign and verify", async () => {
+const doc = {
+  "@context": {
+    schema: "http://schema.org/",
+    name: "schema:name",
+    homepage: "schema:url",
+    image: "schema:image"
+  },
+  name: "Manu Sporny",
+  homepage: "https://manu.sporny.org/",
+  image: "https://manu.sporny.org/images/manu.png"
+};
+
+describe("generate sign verify without dids", () => {
+  it("works as expected", async () => {
     const keys = await OpenPgpSignature2019.generateKey({
       userIds: [
         {
@@ -15,19 +27,15 @@ describe("generate sign verify", () => {
       ],
       curve: "secp256k1"
     });
-
-    const doc = {
-      "@context": {
-        schema: "http://schema.org/",
-        name: "schema:name",
-        homepage: "schema:url",
-        image: "schema:image"
-      },
-      name: "Manu Sporny",
-      homepage: "https://manu.sporny.org/",
-      image: "https://manu.sporny.org/images/manu.png"
+    const contexts = {
+      "https://example.com/i/alice/keys/1": {
+        "@context": "https://w3id.org/security/v2",
+        type: "OpenPgpVerificationKey2019",
+        id: "https://example.com/i/alice/keys/1",
+        controller: "https://example.com/i/alice",
+        publicKeyPgp: keys.publicKey
+      }
     };
-
     let signedData = await OpenPgpSignature2019.sign({
       data: doc,
       privateKey: keys.privateKey,
@@ -36,40 +44,22 @@ describe("generate sign verify", () => {
         proofPurpose: "assertionMethod"
       }
     });
-
-    const publicKeyObject = {
-      "@context": "https://w3id.org/security/v2",
-      type: "OpenPgpVerificationKey2019",
-      id: "https://example.com/i/alice/keys/1",
-      controller: "https://example.com/i/alice",
-      publicKeyPgp: keys.publicKey
-    };
-
-    // define a mapping of context URL => context doc
-    const CONTEXTS = {
-      "https://example.com/i/alice/keys/1": {
-        ...publicKeyObject
-      }
-    };
-
     const customLoader = (url, callback) => {
-      if (url in CONTEXTS) {
+      if (url in contexts) {
         return callback(null, {
           contextUrl: null, // this is for a context via a link header
-          document: CONTEXTS[url], // this is the actual document that was loaded
+          document: contexts[url], // this is the actual document that was loaded
           documentUrl: url // this is the actual context URL after redirects
         });
       }
       return nodeDocumentLoader(url, callback);
     };
-
     const verified = await OpenPgpSignature2019.verify({
       data: signedData,
       options: {
         documentLoader: customLoader
       }
     });
-
     expect(verified).toBe(true);
   });
 });
