@@ -8,7 +8,7 @@
   "main": "./src/index.js",
   "scripts": {
     "openpgpsignature2019": "node ./bin/bin.js",
-    "test": "jest -c ./config/jest.config.js",
+    "test": "jest -c ./config/jest.config.js ",
     "coverage": "npm run test -- --coverage",
     "codecov": "codecov",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"

@@ -8,6 +8,9 @@ const customLoader = (url, callback) => {
   // are we handling a DID?
   if (url.indexOf("did:example") === 0) {
     const doc = resolver.resolve(url);
+    if (!doc) {
+      throw new Error("Could not resole: " + url);
+    }
     // iterate public keys, find the correct id...
     for (publicKey of doc.publicKey) {
       if (publicKey.id === url) {

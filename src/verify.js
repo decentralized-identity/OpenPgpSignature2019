@@ -10,6 +10,7 @@ const resolvePublicKey = async (documentLoader, verificationMethod) => {
       return resolve(data);
     });
   });
+
   return result.document.publicKeyPgp;
 };
 

@@ -11,7 +11,7 @@ const config = {
     "<rootDir>/src/**/?(*.)+(spec|test).js"
   ],
   testPathIgnorePatterns,
-  coveragePathIgnorePatterns: ["<rootDir>/config", "<rootDir>/src/__tests___"],
+  coveragePathIgnorePatterns: ["<rootDir>/config", "__fixtures__"],
   coverageThreshold: {
     global: {
       branches: 80,
