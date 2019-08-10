@@ -1,6 +1,6 @@
 {
   "name": "@transmute/openpgpsignature2019",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "",
   "bin": {
     "openpgpsignature2019": "./bin/bin.js"
