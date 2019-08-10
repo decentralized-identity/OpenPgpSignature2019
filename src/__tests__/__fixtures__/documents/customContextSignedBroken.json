@@ -1,0 +1,11 @@
+{
+  "@context": "https://w3id.org/security/v2",
+  "coolCustomContext:myCustomProperty1337": "deadbeef",
+  "proof": {
+    "type": "OpenPgpSignature2019",
+    "verificationMethod": "did:example:123-not-resolveable#key-0",
+    "proofPurpose": "assertionMethod",
+    "created": "2019-08-10T19:36:31.518Z",
+    "signatureValue": "-----BEGIN PGP SIGNATURE-----\nComment: GPGTools - https://gpgtools.org\n\niQEzBAABCgAdFiEE8b0S9xIG+qHyNpl9YAQth2wyYWYFAl1PHMEACgkQYAQth2wy\nYWakKAgAjL/NmVcDr+yWBcKQqmcAfAckPKIHlaMo6DfcyzvYvxii+Is14QW1KmUA\nFSCuu1ugGNDQtBKBhF43Cz9ZJymHgbcPsUn+DkFPfl35PEnMfP3O/cmHXPWzBEvL\nChwL5j1RawjBqFnDJvhDTiVpwRmMfXYNfeSnmInkH3W/epA4eq0f5aHWxoP3UkIB\nhbfreGDRNnxVkaZ2/YYPgctvOEamPqCJk26qWzgZhCs3RyLiVRba5qYBohAkkNf8\nF602VnO1xnYQBmfCfqvH3S11zjJHbUT4DhKjkSsCZDHrk9uznbbaLig/jxK1juBi\n5BBeU8SZWlxNreujQBjScWEz6uAHFg==\n=UkNf\n-----END PGP SIGNATURE-----\n"
+  }
+}

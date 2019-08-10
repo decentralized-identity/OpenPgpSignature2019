@@ -1,5 +1,5 @@
 const createVerifyData = require("./createVerifyData");
-const suite = require("./suite");
+const openpgp = require("openpgp");
 
 const sign = async ({ data, privateKey, proof, options }) => {
   if (!proof.verificationMethod) {
@@ -16,23 +16,36 @@ const sign = async ({ data, privateKey, proof, options }) => {
 
   proof.type = "OpenPgpSignature2019";
 
-  const result = await createVerifyData(data, signatureOptions);
+  const { framed, verifyDataHexString } = await createVerifyData(
+    data,
+    signatureOptions
+  );
 
-  const { framed, verifyDataHexString } = result;
+  let privateKeyObject = privateKey;
+  if (typeof privateKey === "string") {
+    privateKeyObject = (await openpgp.key.readArmored(privateKey)).keys[0];
+  }
 
-  const signatureValue = await suite.sign({
-    verifyData: verifyDataHexString,
-    privateKey,
-    options: options || {
-      compact: false
+  if (privateKeyObject.keyPacket.isEncrypted) {
+    if (!options.passphrase) {
+      throw new Error("passphrase is required in signature options.");
     }
+    await privateKeyObject.decrypt(options.passphrase);
+  }
+
+  const { signature } = await openpgp.sign({
+    message: openpgp.message.fromBinary(
+      Buffer.from(verifyDataHexString + "\n")
+    ), // CleartextMessage or Message object
+    privateKeys: [privateKeyObject], // for signing
+    detached: true
   });
 
   return {
     ...framed,
     proof: {
       ...proof,
-      signatureValue: signatureValue
+      signatureValue: signature
     }
   };
 };
