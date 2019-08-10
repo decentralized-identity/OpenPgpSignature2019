@@ -14,7 +14,7 @@ const { version } = require("../../package.json");
 describe("bin", () => {
   it("version", async () => {
     const versionCommand = `
-    npm --silent run openpgp-sig19 version 
+    npm --silent run openpgpsignature2019 version 
   `;
     const result = shell.exec(versionCommand, { silent: true });
     const parsed = JSON.parse(result.stdout);
@@ -31,7 +31,7 @@ describe("bin", () => {
       "./__fixtures__/documents/customContextSigned.gpg.json"
     );
     const signCommand = `
-    NODE_ENV='development' npm --silent run openpgp-sig19 sign -- -u "3AF00854CF8D9237" -o ${pathToSigned} ${pathToFile} did:example:123#key-0
+    NODE_ENV='development' npm --silent run openpgpsignature2019 sign -- -u "3AF00854CF8D9237" -o ${pathToSigned} ${pathToFile} did:example:123#key-0
   `;
     const result = shell.exec(signCommand, { silent: true });
     const credential = JSON.parse(result.stdout);
@@ -52,7 +52,7 @@ describe("bin", () => {
       "./__fixtures__/documents/customContextSigned.gpg.json"
     );
     const verifyCommand = `
-    NODE_ENV='development' npm --silent run openpgp-sig19 verify -- ${pathToSigned}
+    NODE_ENV='development' npm --silent run openpgpsignature2019 verify -- ${pathToSigned}
   `;
     const result = shell.exec(verifyCommand, { silent: true });
     const parsed = JSON.parse(result.stdout);
