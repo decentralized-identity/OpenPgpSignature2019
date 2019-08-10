@@ -33,6 +33,8 @@ const verify = async ({ data, options }) => {
     data.proof.verificationMethod
   );
 
+  // console.log(verifyDataHexString);
+
   const armoredSignature =
     data.proof.signatureValue.indexOf("PGP SIGNATURE") === -1
       ? encoding.expand(data.proof.signatureValue)
@@ -40,13 +42,13 @@ const verify = async ({ data, options }) => {
 
   const verified = await openpgp.verify({
     message: openpgp.message.fromBinary(
-      Buffer.from(verifyDataHexString, "hex")
+      Buffer.from(verifyDataHexString + "\n")
     ), // CleartextMessage or Message object
     signature: await openpgp.signature.readArmored(armoredSignature), // parse detached signature
     publicKeys: (await openpgp.key.readArmored(publicKey)).keys // for verification
   });
 
-  return verified.signatures[0].valid; // true
+  return verified.signatures[0].valid === true; // true
 };
 
 module.exports = verify;

@@ -36,7 +36,7 @@ const sign = async ({ data, privateKey, proof, options }) => {
 
   const { signature } = await openpgp.sign({
     message: openpgp.message.fromBinary(
-      Buffer.from(verifyDataHexString, "hex")
+      Buffer.from(verifyDataHexString + "\n")
     ), // CleartextMessage or Message object
     privateKeys: [privateKeyObject], // for signing
     detached: true

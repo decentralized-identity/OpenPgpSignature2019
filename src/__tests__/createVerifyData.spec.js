@@ -1,6 +1,9 @@
-const { documentLoader, documentExample } = require("./__fixtures__");
+const { documentLoader, documents } = require("./__fixtures__");
 
 const createVerifyData = require("../createVerifyData");
+
+// JSON-LD url resolution is slow.
+jest.setTimeout(20 * 1000);
 
 describe("createVerifyData", () => {
   it("it produces framed and hex", async () => {
@@ -12,7 +15,7 @@ describe("createVerifyData", () => {
       created: "2019-08-10T03:01:04.700Z"
     };
     const { framed, verifyDataHexString } = await createVerifyData(
-      documentExample,
+      documents.customContext,
       proof
     );
     expect(framed).toEqual({

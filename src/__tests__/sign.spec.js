@@ -1,11 +1,11 @@
-const { documentLoader, documentExample, dids } = require("./__fixtures__");
+const { documentLoader, documents, dids } = require("./__fixtures__");
 
 const sign = require("../sign");
 
 describe("sign", () => {
   it("with passphrase, not compact", async () => {
     const credential = await sign({
-      data: documentExample,
+      data: documents.customContext,
       privateKey: dids["did:example:123"].keys.key1.privateKey,
       proof: {
         verificationMethod: "did:example:123#key-1",
