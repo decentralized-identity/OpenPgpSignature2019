@@ -1,6 +1,5 @@
 const createVerifyData = require("./createVerifyData");
 const openpgp = require("openpgp");
-const encoding = require("./encoding");
 
 const resolvePublicKey = async (documentLoader, verificationMethod) => {
   const result = await new Promise((resolve, reject) => {
@@ -33,12 +32,7 @@ const verify = async ({ data, options }) => {
     data.proof.verificationMethod
   );
 
-  // console.log(verifyDataHexString);
-
-  const armoredSignature =
-    data.proof.signatureValue.indexOf("PGP SIGNATURE") === -1
-      ? encoding.expand(data.proof.signatureValue)
-      : data.proof.signatureValue;
+  const armoredSignature = data.proof.signatureValue;
 
   const verified = await openpgp.verify({
     message: openpgp.message.fromBinary(

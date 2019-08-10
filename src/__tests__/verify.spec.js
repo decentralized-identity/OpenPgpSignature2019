@@ -7,7 +7,6 @@ describe("verify", () => {
     const verified = await verify({
       data: documents.customContextSigned,
       options: {
-        compact: false,
         documentLoader
       }
     });

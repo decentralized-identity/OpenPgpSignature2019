@@ -14,7 +14,6 @@ describe("sign", () => {
         created: "2019-08-10T03:01:04.700Z"
       },
       options: {
-        compact: false,
         documentLoader: documentLoader,
         passphrase: "correct horse battery staple"
       }

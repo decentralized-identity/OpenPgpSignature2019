@@ -1,6 +1,5 @@
 const createVerifyData = require("./createVerifyData");
 const openpgp = require("openpgp");
-const encoding = require("./encoding");
 
 const sign = async ({ data, privateKey, proof, options }) => {
   if (!proof.verificationMethod) {
@@ -42,15 +41,11 @@ const sign = async ({ data, privateKey, proof, options }) => {
     detached: true
   });
 
-  const signatureValue = options.compact
-    ? encoding.compact(signature)
-    : signature;
-
   return {
     ...framed,
     proof: {
       ...proof,
-      signatureValue: signatureValue
+      signatureValue: signature
     }
   };
 };
