@@ -31,7 +31,7 @@ const verify = async ({ verifyData, signature, publicKey }) => {
       : signature;
 
   const verified = await openpgp.verify({
-    message: openpgp.cleartext.fromText(verifyData), // CleartextMessage or Message object
+    message: openpgp.message.fromBinary(Buffer.from(verifyData + "\n")), // CleartextMessage or Message object
     signature: await openpgp.signature.readArmored(armoredSignature), // parse detached signature
     publicKeys: (await openpgp.key.readArmored(publicKey)).keys // for verification
   });
