@@ -2,20 +2,16 @@
   "name": "@transmute/openpgpsignature2019",
   "version": "0.2.1",
   "description": "",
+  "bin": {
+    "openpgpsignature2019": "./bin/bin.js"
+  },
   "main": "./src/index.js",
   "scripts": {
-    "test": "jest",
-    "coverage": "jest --coverage",
+    "openpgpsignature2019": "node ./bin/bin.js",
+    "test": "jest -c ./config/jest.config.js ",
+    "coverage": "npm run test -- --coverage",
     "codecov": "codecov",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
-  },
-  "jest": {
-    "setupFiles": [
-      "./setupJest.js"
-    ],
-    "testPathIgnorePatterns": [
-      "__fixtures__"
-    ]
   },
   "repository": {
     "type": "git",
@@ -31,10 +27,12 @@
     "codecov": "^3.1.0",
     "coveralls": "^3.0.2",
     "jest": "^24.8.0",
-    "jsonld-signatures": "^4.2.0"
+    "jsonld-signatures": "^4.2.0",
+    "shelljs": "^0.8.3"
   },
   "dependencies": {
     "jsonld": "^1.4.0",
-    "openpgp": "^4.4.3"
+    "openpgp": "^4.5.5",
+    "vorpal": "^1.12.0"
   }
 }

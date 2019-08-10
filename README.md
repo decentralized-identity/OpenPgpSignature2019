@@ -16,11 +16,11 @@ This signature suite follows the approach taken by:
 - [RsaSignature2017](https://github.com/transmute-industries/RsaSignature2017)
 - [EcdsaKoblitzSignature2016](https://github.com/transmute-industries/EcdsaKoblitzSignature2016)
 
-Addionally it supports custom attribute for signature, and compaction and expansion to save space from PGP Armor.
+We provide a binary which you can use to create JSON-LD Signatures with your local gpg key that already exist, including keys that are connected to smart cards like Yubikey NEO.
 
 ## Example Use
 
-See [generate-sign-verify.spec.js](./src/__tests__/generate-sign-verify.spec.js).
+See [tests](./src/__tests__).
 
 ```js
 const keys = await OpenPgpSignature2019.generateKey({
@@ -127,7 +127,7 @@ const resolver = {
         {
           "@context": "https://w3id.org/security/v2",
           type: "OpenPgpVerificationKey2019",
-          id: "did:example:123#kid=456",
+          id: "did:example:123#kid-456",
           controller: "did:example:123",
           publicKeyPgp:
             "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.4.3\r\nComment: https://openpgpjs.org\r\n\r\nxk8EXPQjDhMFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/h\r\nUyBgRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAzRIiYW5vbkBl\r\neGFtcGxlLmNvbSLCdwQQEwgAHwUCXPQjDgYLCQcIAwIEFQgKAgMWAgECGQEC\r\nGwMCHgEACgkQOqx3TfQyHavsPAEA7Ah6P2cs9B/72bfMiWgeBcEOTIIBjaQ+\r\nHycfG5ldmpQBAP30Tqo0yuwiaf/qDOLnzrXPQIyz1noKdYpXgGOpzivWzlME\r\nXPQjDhIFK4EEAAoCAwQ22JuKLOw0REjgH3KPldvpQLyPbevO6nd/vs/hUyBg\r\nRDFhB66eam0Kg0K/bFspd7EqBQf5sg4MjtW2g+UlMNuAAwEIB8JhBBgTCAAJ\r\nBQJc9CMOAhsMAAoJEDqsd030Mh2re2cA/jr04uWORrq1rXnfGWUeg3uSc0Dw\r\nhzSqweh/a64RHkUvAP0d6whaffpbnb2pnlivCraq+EyBPuDrJFXRpFMA7v6N\r\nQw==\r\n=kUuh\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n"
@@ -184,13 +184,12 @@ let signedData = await OpenPgpSignature2019.sign({
   data,
   privateKey: "PRIVATE_KEY",
   proof: {
-    verificationMethod: "did:example:123#kid=456", // notice this is not a URL!
+    verificationMethod: "did:example:123#kid-456", // notice this is not a URL!
     proofPurpose: "assertionMethod"
   },
   options: {
     documentLoader: customLoader,
-    passphrase: "correct horse battery staple", // if required
-    compact: true // remove "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js..."
+    passphrase: "correct horse battery staple" // if required
   }
 });
 
@@ -217,7 +216,7 @@ Transmute: support@transmute.industries.
 
 ## License
 
-This library uses OpenPGP.js to sign and verify, as well as manage armored key encoding / decoding. OpenPGP.js is not modified in any way.
+This library uses OpenPGP.js to sign and verify, as well as manage armored key encoding / decoding. OpenPGP.js is not modified in any way. This library also supports calling gpg directly.
 
 [OpenPGP.js](https://github.com/openpgpjs/openpgpjs) is LGPL v3, see its [LICENSE](https://github.com/openpgpjs/openpgpjs/blob/master/LICENSE)
 
