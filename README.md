@@ -20,6 +20,24 @@ We provide a binary which you can use to create JSON-LD Signatures with your loc
 
 ## Example Use
 
+If you want to use this library with GPG:
+
+```
+npm i -g @transmute/openpgpsignature2019@latest
+```
+
+If you want to use this library as a dependency
+
+```
+npm i @transmute/openpgpsignature2019@latest --save
+```
+
+Sign a json file:
+
+```
+openpgpsignature2019 sign -u "3AF00854CF8D9237" ./package.json did:example:123#key-0
+```
+
 See [tests](./src/__tests__).
 
 ```js
