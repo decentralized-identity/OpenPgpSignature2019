@@ -34,6 +34,8 @@ We support the [universal-resolver](https://github.com/decentralized-identity/un
 
 ## Binary Use
 
+If you are interested in using Yubikey see this [setup guide](./docs/README.md).
+
 #### Sign a json document:
 
 ```
