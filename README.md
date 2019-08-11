@@ -4,6 +4,18 @@
 
 This is a WIP proposal, and has not been formally submitted.
 
+If you want to use this library with GPG:
+
+```
+npm i -g @transmute/openpgpsignature2019@latest
+```
+
+If you want to use this library as a dependency
+
+```
+npm i @transmute/openpgpsignature2019@latest --save
+```
+
 ## Motivation
 
 OpenPGP is a standard that defines formats for encryption keys and messages. By providing a Linked Data Signature suite that uses OpenPGP we can leverage a more established standard to support an emerging one (Linked Data Signatures). A Linked Data Signature Suite for OpenPGP also enables OpenPGP to be used as a building block for other standards, such as Decentralized Identifiers.
@@ -18,19 +30,9 @@ This signature suite follows the approach taken by:
 
 We provide a binary which you can use to create JSON-LD Signatures with your local gpg key that already exist, including keys that are connected to smart cards like Yubikey NEO.
 
-## Example Use
+We support the [universal-resolver](https://github.com/decentralized-identity/universal-resolver) for signing and verifying with DIDs by default, but you can provide your own custom document resolver, see the [defaultDocumentLoader](./src/defaultDocumentLoader.js)
 
-If you want to use this library with GPG:
-
-```
-npm i -g @transmute/openpgpsignature2019@latest
-```
-
-If you want to use this library as a dependency
-
-```
-npm i @transmute/openpgpsignature2019@latest --save
-```
+## Binary Use
 
 #### Sign a json document:
 
@@ -43,6 +45,8 @@ openpgpsignature2019 sign -u "3AF00854CF8D9237" $(pwd)/src/__tests__/__fixtures_
 ```
 openpgpsignature2019 verify $(pwd)/src/__tests__/__fixtures__/documents/exampleSigned.json
 ```
+
+## Library Use
 
 See [tests](./src/__tests__).
 
