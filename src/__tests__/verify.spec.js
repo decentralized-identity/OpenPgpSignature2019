@@ -15,6 +15,16 @@ describe("verify", () => {
     expect(verified).toBe(true);
   });
 
+  it("will try to use univeral resolver if no documentLoader is provided", async () => {
+    const verified = await verify({
+      data: documents.exampleSigned,
+      options: {
+        // documentLoader
+      }
+    });
+    expect(verified).toBe(true);
+  });
+
   it("fails when signature is verifiable with documentLoader", async () => {
     expect.assertions(1);
     try {
@@ -26,7 +36,7 @@ describe("verify", () => {
       });
     } catch (e) {
       expect(e.message).toBe(
-        "Could not resole: did:example:123-not-resolveable#key-0"
+        "Could not resolve: did:example:123-not-resolveable#key-0"
       );
     }
   });

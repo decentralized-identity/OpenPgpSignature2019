@@ -1,5 +1,6 @@
 const createVerifyData = require("./createVerifyData");
 const openpgp = require("openpgp");
+const defaultDocumentLoader = require("./defaultDocumentLoader");
 
 const sign = async ({ data, privateKey, proof, options }) => {
   if (!proof.verificationMethod) {
@@ -9,9 +10,21 @@ const sign = async ({ data, privateKey, proof, options }) => {
     proof.created = new Date().toISOString();
   }
 
+  const documentLoader =
+    options && options.documentLoader
+      ? options.documentLoader
+      : defaultDocumentLoader;
+
+  if (!options) {
+    options = {
+      documentLoader
+    };
+  }
+
   const signatureOptions = {
     ...proof,
-    ...options
+    ...options,
+    documentLoader
   };
 
   proof.type = "OpenPgpSignature2019";

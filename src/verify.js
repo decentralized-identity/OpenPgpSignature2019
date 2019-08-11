@@ -1,5 +1,6 @@
 const createVerifyData = require("./createVerifyData");
 const openpgp = require("openpgp");
+const defaultDocumentLoader = require("./defaultDocumentLoader");
 
 const resolvePublicKey = async (documentLoader, verificationMethod) => {
   const result = await new Promise((resolve, reject) => {
@@ -15,18 +16,26 @@ const resolvePublicKey = async (documentLoader, verificationMethod) => {
 };
 
 const verify = async ({ data, options }) => {
+  const documentLoader =
+    options && options.documentLoader
+      ? options.documentLoader
+      : defaultDocumentLoader;
+
+  if (!options) {
+    options = {
+      documentLoader
+    };
+  }
+
   const signatureOptions = {
     ...data.proof,
     ...options
   };
+
   const { verifyDataHexString } = await createVerifyData(
     data,
     signatureOptions
   );
-
-  const documentLoader = signatureOptions.documentLoader
-    ? signatureOptions.documentLoader
-    : jsonld.documentLoader;
 
   const publicKey = await resolvePublicKey(
     documentLoader,

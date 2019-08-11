@@ -1,0 +1,13 @@
+{
+  "@context": "https://w3id.org/security/v2",
+  "http://schema.org/image": "https://manu.sporny.org/images/manu.png",
+  "http://schema.org/name": "Manu Sporny",
+  "http://schema.org/url": "https://manu.sporny.org/",
+  "proof": {
+    "type": "OpenPgpSignature2019",
+    "verificationMethod": "did:btcr:xxcl-lzpq-q83a-0d5#yubikey",
+    "proofPurpose": "assertionMethod",
+    "created": "2019-08-11T03:54:13.310Z",
+    "signatureValue": "-----BEGIN PGP SIGNATURE-----\nComment: GPGTools - https://gpgtools.org\n\niQEzBAABCgAdFiEE8b0S9xIG+qHyNpl9YAQth2wyYWYFAl1PkWcACgkQYAQth2wy\nYWYERQf+IDljFlsDCOW9X2RjFDb5s3LxIPs5H2dl6tn7iLY0EuCsBW9+DvC8c1sw\nwwMNaP/DlVGzpb0HrtxWZDi7cWdyPBNSL2hsGzfl0ou8Hz9FWJxPmu3LQ3Z2X8Jl\n55PcUI/htsVJrbDDZL/HbRPjsafTp5WO6gTL69JOy1fZjwAQG6NQd6datFld5iMk\n1gtEKzFGRM/FlydUh/jSGS7yLv/y3DHj/empGoSgMXTHnvv9Zalrpe+KvLavsBPz\njty9ZC661T202dqgJC77CMJIIj9e4u3qWahK/jgu+oTCncRZEaCTMAuMOYDQ1axn\njLQ76whXjjXim/yfLfaZcv8Mpwdr9Q==\n=fiST\n-----END PGP SIGNATURE-----\n"
+  }
+}

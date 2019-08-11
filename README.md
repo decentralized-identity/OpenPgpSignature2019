@@ -32,10 +32,16 @@ If you want to use this library as a dependency
 npm i @transmute/openpgpsignature2019@latest --save
 ```
 
-Sign a json file:
+#### Sign a json document:
 
 ```
-openpgpsignature2019 sign -u "3AF00854CF8D9237" ./package.json did:example:123#key-0
+openpgpsignature2019 sign -u "3AF00854CF8D9237" $(pwd)/src/__tests__/__fixtures__/documents/example.json did:btcr:xxcl-lzpq-q83a-0d5#yubikey
+```
+
+#### Verify a document
+
+```
+openpgpsignature2019 verify $(pwd)/src/__tests__/__fixtures__/documents/exampleSigned.json
 ```
 
 See [tests](./src/__tests__).
