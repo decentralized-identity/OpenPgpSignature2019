@@ -4,6 +4,8 @@ const { documentLoader, documents, dids } = require("./__fixtures__");
 
 const sign = require("../sign");
 
+jest.setTimeout(30 * 1000);
+
 describe("sign", () => {
   it("with passphrase, not compact", async () => {
     const credential = await sign({

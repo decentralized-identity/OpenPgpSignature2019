@@ -5,7 +5,7 @@
     "type": "OpenPgpSignature2019",
     "verificationMethod": "did:example:123#key-0",
     "proofPurpose": "assertionMethod",
-    "created": "2019-08-11T04:11:55.577Z",
-    "signatureValue": "-----BEGIN PGP SIGNATURE-----\nComment: GPGTools - https://gpgtools.org\n\niQEzBAABCgAdFiEE8b0S9xIG+qHyNpl9YAQth2wyYWYFAl1PlY4ACgkQYAQth2wy\nYWbqqgf/TKkeHQ5vxoIvElnAcn6IJm7Ref88RuKe4jvleVbrkEMvCTsvTJ/2d439\npRzZMtCDC1SREMKNvQfO/AzrF497U4OIsc+SPTWOpS9BSJnhX/36onF5BJOp1ION\n8AODB/8eZMPDvL/Aq9WLR58xklNg8BaLTcL/klvxBuocY27HRQUJE7z1+esYPCDe\n0frnHDxl2BBOQxGtOL6mMfK6Ud2E1wLogQwQVzTWq2vKjaC4g82E68JPHwVj2UmI\nKqZ1HCF50/abNnbEEMRIw1UCzT4Ck+Zp6D/citm1vDr/8kYygVU6mHqy8NB/ZTen\nUxwakBobAFonAiZZwLZPMuRL/J6j8w==\n=RIED\n-----END PGP SIGNATURE-----\n"
+    "created": "2019-08-11T04:18:38.208Z",
+    "signatureValue": "-----BEGIN PGP SIGNATURE-----\nComment: GPGTools - https://gpgtools.org\n\niQEzBAABCgAdFiEE8b0S9xIG+qHyNpl9YAQth2wyYWYFAl1PlyAACgkQYAQth2wy\nYWa9DAgAiGnKOW/S5kPcDRoyiLzI9gzU71g75jpWvlbu36AZirYaAUCBwOJsbXqS\nmLqWWYO0egx13BjCK1/ppvUwVNrjeHBDeVmrGWTl9PHo2KLV71o+i3hNpXYPqGm6\nv9PNj9wucf3h9DVr7xpZTviNEGQNfBQnlrf9auAHwx+SK61jd7dRf0/uoUkjcmxR\n/bkVHxSw/n5F8lBfCrcxxe9Sd1BEn0ovHOdeRdIlTUL3u/0UOs1v18ddpKYzycEp\nEDnZGWZBl1c30J6WmezyZa9XnnnB0jo/1xIHbvHICoZCJrFo58lnlnlLiKugAbHg\nUaA/69J3fkoX1cyUZbdrxjBu36QU+A==\n=LQKd\n-----END PGP SIGNATURE-----\n"
   }
 }
