@@ -1,328 +1,409 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>OpenPGP Signature Suite 2019</title>
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
-    <!--
-      === NOTA BENE ===
-      For the three scripts below, if your spec resides on dev.w3 you can check them
-      out in the same tree and use relative links so that they'll work offline,
-     -->
-    <script src='//www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
-    <script type="text/javascript" class="remove">
-      var respecConfig = {
-        // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-        specStatus:           "CG-DRAFT",
+<head>
+<meta charset="utf-8" />
+<title>OpenPGP Signature 2019</title>
+<link
+rel="icon"
+type="image/png"
+sizes="16x16"
+href="images/favicon-16x16.png"
+/>
+<style>
+#subtitle ~ h2,
+.copyright,
+#sotd p:first-of-type {
+display: none;
+}
+</style>
+<script
+src="https://www.w3.org/Tools/respec/respec-w3c-common"
+class="remove"
+></script>
+<script class="remove">
+var respecConfig = {
+subtitle: "DIF Working Group Pending Draft",
+wg: "Claims & Credentials Working Group",
+logos: [
+{
+src:
+    "https://raw.githubusercontent.com/decentralized-identity/decentralized-identity.github.io/master/images/logo-large.png",
+href: "https://identity.foundation/",
+alt: "Decentralized Identity Foundation",
+width: 200,
+id: "dif-logo"
+}
+],
+editors: [
+{
+name: "Orie Steele",
+url: "https://www.linkedin.com/in/or13b/",
+company: "Transmute",
+companyURL: "https://www.transmute.industries/"
+}
+],
+github:
+"https://github.com/decentralized-identity/OpenPgpSignature2019",
+edDraftURI: "https://identity.foundation/OpenPgpSignature2019/",
+shortName: "openpgp-signature-2019",
+localBiblio: {
+"RDF-DATASET-CANONICALIZATION": {
+title: "RDF Dataset Canonicalization 1.0",
+href: "http://json-ld.github.io/normalization/spec/",
+authors: ["David Longley", "Manu Sporny"],
+status: "CGDRAFT",
+publisher: "JSON-LD Community Group"
+},
+"SECURITY-VOCABULARY": {
+title: "Security Linked Data Vocabulary",
+href: "https://web-payments.org/vocabs/security",
+authors: ["Manu Sporny", "David Longley"],
+status: "CGDRAFT",
+publisher: "Web Payments Community Group"
+},
+"LD-SIGNATURES": {
+title: "Linked Data Signatures 1.0",
+href: "https://w3c-dvcg.github.io/ld-signatures/",
+authors: ["David Longley", "Manu Sporny"],
+status: "CGDRAFT",
+publisher: "Digital Verification Community Group"
+}
+}
+};
+</script>
+</head>
 
-        // the specification's short name, as in http://www.w3.org/TR/short-name/
-        shortName:            "lds-openpgp2019",
+<body>
+<section id="abstract">
+<p>
+This specification describes a mechanism for ensuring the authenticity
+and integrity of Linked Data documents using digital signatures created
+with OpenPGP.
+</p>
+</section>
 
-        // if you wish the publication date to be other than today, set this
-        // publishDate:  "2009-08-06",
+<section id="sotd">
+<p>
+OpenPgpSignature2019 is a draft specification being developed within the
+<a href="https://identity.foundation"
+>Decentralized Identity Foundation</a
+>
+(DIF), and intended for registration with W3C. This spec will be updated
+to reflect relevant changes, and participants are encouraged to
+contribute at the following repository location:
+<a href="https://github.com/decentralized-identity/OpenPgpSignature2019"
+>https://github.com/decentralized-identity/OpenPgpSignature2019</a
+>
+</p>
+</section>
+<section>
+<h2>Introduction</h2>
+This specification describes the OpenPGP Signature Suite created in 2019
+for the Linked Data Signatures [[LD-SIGNATURES]] specification. It uses
+the RDF Dataset CANONICALIZATION Algorithm
+[[RDF-DATASET-CANONICALIZATION]] to transform the input document into its
+canonical form. It uses SHA-256 [[RFC6234]] as the
+<a>message digest algorithm</a> and the OpenPGP sign detached algorithm
+defined in OpenPGP [[RFC4880]] as the <a>signature algorithm</a>.
+</section>
 
-        // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
-        // and its maturity status
-        // previousPublishDate:  "1977-03-15",
-        // previousMaturity:  "WD",
+<section>
+<h2>Terminology</h2>
+<table class="simple">
+<thead>
+<tr>
+<th style="min-width: 8em;">Term</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="decentralized-identifier">
+    Decentralized Identifier (DID)
+</td>
+<td>
+    Unique ID string and PKI metadata document format for describing
+    the cryptographic keys and other fundamental PKI values linked to
+    a unique, user-controlled, self-sovereign identifier in a target
+    system (i.e. blockchain, distributed ledger).
+</td>
+</tr>
 
+<tr>
+<td id="linked-data-signature">Linked Data Signature (DID)</td>
+<td>
+    A set of attributes that represent a Linked Data digital signature
+    and the parameters required to verify it. See [[LD-SIGNATURES]].
+</td>
+</tr>
+
+<tr>
+<td id="signature-suite"><dfn>signature suite</dfn></td>
+<td>
+    A specified set of cryptographic primitives typically consisting
+    of a canonicalization algorithm, a message digest algorithm, and a
+    signature algorithm that are bundled together by cryptographers
+    for developers for the purposes of safety and convenience.
+</td>
+</tr>
+
+<tr>
+<td id="canonicalization-algorithm">
+    <dfn>canonicalization algorithm</dfn>
+</td>
+<td>
+    An algorithm that takes an input document that has more than one
+    possible representation and always transforms it into a canonical
+    form. This process is sometimes also called CANONICALIZATION.
+</td>
+</tr>
+
+<tr>
+<td id="message-digest-algorithm">
+    <dfn>message digest algorithm</dfn>
+</td>
+<td>
+    An algorithm that takes an input message and produces a
+    cryptographic output message that is often many orders of
+    magnitude smaller than the input message. These algorithms are
+    often 1) very fast, 2) non-reversible, 3) cause the output to
+    change significantly when even one bit of the input message
+    changes, and 4) make it infeasible to find two different inputs
+    for the same output.
+</td>
+</tr>
+
+<tr>
+<td id="message-digest-algorithm">
+    <dfn>signature algorithm</dfn>
+</td>
+<td>
+    An algorithm that takes an input message and produces an output
+    value where the receiver of the message can mathematically verify
+    that the message has not been modified in transit and came from
+    someone possessing a particular secret.
+</td>
+</tr>
+
+</tbody>
+</table>
+
+    
+</section>
+
+<section>
+        <h3>Linked Data Signature Context Terms</h3>
+        <section>
+
+              
+                <h3><dfn>OpenPgpSignature2019</dfn></h3>
         
-        // if there a publicly available Editor's Draft, this is the link
-        edDraftURI:           "https://transmute-industries.github.io/PROPOSAL-OpenPgpSignature2019/",
+                <p>
+                        The name of this <a>signature suite</a>. 
+                        This value will be present in the proof type to indicate that 
+                        this is the suite to be used to verify the proof. 
+                        See <a href="#example-2">example-2</a>
+                </p>
+        
+            </section>
+        
+            <section>
+                    <h3><dfn>OpenPgpVerificationKey2019</dfn></h3>
+                    <p>
+                            The name of this public key type used by this <a>signature suite</a>. 
+                            This value will be present in the publicKey array of a controller.
+                    </p>
+            </section>
+        
+            <section>
+                    <h3><dfn>publicKeyPgp</dfn></h3>
+                    <p>
+                        The value of a public key used by this <a>signature suite</a>. 
+                        This value will be present in the publicKey array of a controller.
+                        The value of this key must be an ascii armored public key.
+                        See <a href="https://tools.ietf.org/html/rfc4880#section-6.2">rfc4880#section-6.2</a>
+                    </p>
+            </section>
+        
+            <section>
+                    <h3><dfn>signatureValue</dfn></h3>
+                    <p>
+                        The value of a signature produced by this <a>signature suite</a>. 
+                        This value will be present in the proof of a signed linked data document.
+                        This value must be an ascii armored message.
+                        See <a href="https://tools.ietf.org/html/rfc4880#section-6.2">rfc4880#section-6.2</a>
+                    </p>
+            </section>
+</section>
 
-        // if this is a LCWD, uncomment and set the end of its review period
-        // lcEnd: "2009-08-05",
+<section>
+<h2>The OpenPGP Signature 2019 Suite</h2>
 
-        // if you want to have extra CSS, append them to this list
-        // it is recommended that the respec.css stylesheet be kept
-        //extraCSS:             ["spec.css", "prettify.css"],
+<p>
+The OpenPGP Signature 2019 <a>signature suite</a> MUST be used in conjunction with
+the signing and verification algorithms in the Linked Data Signatures
+[[LD-SIGNATURES]] specification. The suite consists of the following
+algorithms:
+</p>
 
-        // editors, add as many as you like
-        // only "name" is required
-        editors:  [
-          { name: "Orie Steele", url: "https://transmute.industries/",
-            company: "Transmute Industries, Inc.", companyURL: "https://transmute.industries" }
-        ],
+<table class="simple">
+<thead>
+<th>Parameter</th>
+<th>Value</th>
+<th>Specification</th>
+</thead>
+<tbody>
+<tr>
+<td>canonicalizationAlgorithm</td>
+<td>https://w3id.org/security#GCA2015</td>
+<td>[[RDF-DATASET-CANONICALIZATION]]</td>
+</tr>
+<tr>
+<td>digestAlgorithm</td>
+<td>https://www.ietf.org/assignments/jwa-parameters#SHA256</td>
+<td>[[RFC6234]]</td>
+</tr>
+<tr>
+<td>signatureAlgorithm</td>
+<td>
+    <a href="https://tools.ietf.org/html/rfc4880#section-11.4"
+    >Open PGP Detached Signatures</a
+    >
+</td>
+<td>[[RFC4880]]</td>
+</tr>
+</tbody>
+</table>
 
-        // authors, add as many as you like.
-        // This is optional, uncomment if you have authors as well as editors.
-        // only "name" is required. Same format as editors.
 
-        authors:  [
-            { name: "Orie Steele", url: "https://transmute.industries/",
-            company: "Transmute Industries, Inc.", companyURL: "https://transmute.industries/" }
-        ],
+</section>
 
-        // extend the bibliography entries
-        //localBiblio: webpayments.localBiblio,
+<section>
+<h2>Modification to Algorithms</h2>
 
-        // name of the WG
-        wg:           "W3C Digital Verification Community Group",
-
-        // URI of the public WG page
-        wgURI:        "https://www.w3.org/community/digital-verification/",
-
-        // name (with the @w3c.org) of the public mailing to which comments are due
-        wgPublicList: "public-digital-verification",
-
-        otherLinks: [{
-          key: "Source control",
-          data: [{
-            value: "https://github.com/transmute-industries/PROPOSAL-OpenPgpSignature2019/",
-            href: "https://github.com/transmute-industries/PROPOSAL-OpenPgpSignature2019/"
-          }]
-        }, {
-          key: "Issue Tracker",
-          data: [{
-            value: "https://github.com/transmute-industries/PROPOSAL-OpenPgpSignature2019/issues/",
-            href: "https://github.com/transmute-industries/PROPOSAL-OpenPgpSignature2019/issues/"
-          }]
-        }],
-
-        // URI of the patent status for this WG, for Rec-track documents
-        // !!!! IMPORTANT !!!!
-        // This is important for Rec-track documents, do not copy a patent URI from a random
-        // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-        // Team Contact.
-        wgPatentURI:  "",
-        maxTocLevel: 4,
-        /*preProcess: [ webpayments.preProcess ],
-        alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
-        */
-        localBiblio:  {
-          "RDF-DATASET-CANONICALIZATION": {
-            title:    "RDF Dataset Canonicalization 1.0",
-            href:     "http://json-ld.github.io/normalization/spec/",
-            authors:  ["David Longley", "Manu Sporny"],
-            status:   "CGDRAFT",
-            publisher:  "JSON-LD Community Group"
-          },
-          "SECURITY-VOCABULARY": {
-            title:    "Security Linked Data Vocabulary",
-            href:     "https://web-payments.org/vocabs/security",
-            authors:  ["Manu Sporny","David Longley"],
-            status:   "CGDRAFT",
-            publisher:  "Web Payments Community Group"
-          },
-          "LD-SIGNATURES": {
-            title:    "Linked Data Signatures 1.0",
-            href:     "https://w3c-dvcg.github.io/ld-signatures/",
-            authors:  ["David Longley", "Manu Sporny"],
-            status:   "CGDRAFT",
-            publisher:  "Digital Verification Community Group"
-          }
-        }
-      };
-    </script>
-  </head>
-  <body>
-    <section id='abstract'>
-      <p>
-This specification describes the OpenPGP Signature Suite created in 2019 for the
-Linked Data Signatures specification.
-      </p>
-    </section>
-
-    <section id='sotd'>
-      <p>
-This is an experimental specification and is undergoing regular revisions. It
-is not fit for production deployment.
-      </p>
-    </section>
-
-    <section>
-      <h2>Introduction</h2>
-      <p>
-This specification describes the OpenPGP Signature Suite created in 2019 for the
-Linked Data Signatures [[LD-SIGNATURES]] specification. It uses the RDF
-Dataset CANONICALIZATION Algorithm [[RDF-DATASET-CANONICALIZATION]] to transform the
-input document into its canonical form. It uses SHA-256 [[RFC6234]] as the
-<a>message digest algorithm</a> and the OpenPGP sign detached algorithm defined in
-OpenPGP [[RFC4880]] as the <a>signature algorithm</a>.
-      </p>
-    </section>
-
-    <section>
-      <h2>Terminology</h2>
-      <p>
-The following terms are used to describe concepts involved in the
-generation and verification of the Linked Data Signature 2019
-<a>signature suite</a>.
-      </p>
-
-      <dl>
-        <dt><dfn>signature suite</dfn></dt>
-        <dd>
-A specified set of cryptographic primitives typically consisting of
-a canonicalization algorithm, a message digest algorithm, and a signature
-algorithm that are bundled together by cryptographers for developers
-for the purposes of safety and convenience.
-        </dd>
-        <dt><dfn>canonicalization algorithm</dfn></dt>
-        <dd>
-An algorithm that takes an input document that has more than one possible
-representation and always transforms it into a canonical form. This process is
-sometimes also called CANONICALIZATION.
-        </dd>
-        <dt><dfn>message digest algorithm</dfn></dt>
-        <dd>
-An algorithm that takes an input message and produces a cryptographic
-output message that is often many orders of magnitude smaller than the
-input message. These algorithms are often 1) very fast, 2)
-non-reversible, 3) cause the output to change significantly when even one
-bit of the input message changes, and 4) make it infeasible to find two
-different inputs for the same output.
-        </dd>
-        <dt><dfn>signature algorithm</dfn></dt>
-        <dd>
-An algorithm that takes an input message and produces an output value where the
-receiver of the message can mathematically verify that the message has not
-been modified in transit and came from someone possessing a particular secret.
-        </dd>
-      </dl>
-
-    </section>
-
-    <section>
-      <h2>The 2019 OpenPGP Signature Suite</h2>
-
-      <p>
-The 2019 OpenPGP <a>signature suite</a> MUST be used in
-conjunction with the signing and verification algorithms in the
-Linked Data Signatures [[LD-SIGNATURES]] specification. The suite consists of
-the following algorithms:
-      </p>
-
-      <table class="simple">
-        <thead>
-          <th>Parameter</th>
-          <th>Value</th>
-          <th>Specification</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>canonicalizationAlgorithm</td>
-            <td>https://w3id.org/security#GCA2015</td>
-            <td>[[RDF-DATASET-CANONICALIZATION]]</td>
-          </tr>
-          <tr>
-            <td>digestAlgorithm</td>
-            <td>https://www.ietf.org/assignments/jwa-parameters#SHA256</td>
-            <td>[[RFC6234]]</td>
-          </tr>
-          <tr>
-            <td>signatureAlgorithm</td>
-            <td><a href='https://github.com/openpgpjs/openpgpjs/blob/e3cae6c34fd306177483769caf79e624ef438bfe/README.md#create-and-verify-detached-signatures'>Open PGP Detached Signatures</a></td>
-            <td>[[RFC4880]]</td>
-          </tr>
-        </tbody>
-
-      </table>
-
-    <section>
-      <h2>Modification to Algorithms</h2>
-
-      <p>
+<p>
 This signature suite uses detached Open PGP Signatures as described in [[RFC4880]]. 
 The signature algorithm used is determined by the key type provided, 
 armored OpenPGP keys contain the information necessary to know the specific method,
 and this flexibility supports integration with exiting software systems that use OpenPGP, GPG or PGP.
 The steps to construct and verify the digital signature are defined below.
-      <p>
+<p>
 
-      <section>
-        <h3>Modifications to Signature Algorithm</h3>
+<section>
+    <h3>Signature Algorithm</h3>
 
-        <p>
+    <p>
 The <var>digital signature algorithm</var> defined in Section 11.4:
 Signature Algorithm takes <var>tbs</var>, a <var>privateKey</var>,
 and </var><var>options</var> as inputs and produces a
 <var>signatureValue</var> as output.
-        </p>
-        <ol class="algorithm">
-          <li>
+    </p>
+    <ol class="algorithm">
+    <li>
 Take <var>tbs</var>, which is the data to be signed, an unlocked private key and options dictionary as input to the signature suite.
-          </li>
-          <li>
+    </li>
+    <li>
 Perform the
 <a href="https://tools.ietf.org/html/rfc4880#section-11.4">sign detached</a> digital signature algorithm specified in Section 11.4 of
 [[RFC4880]] and return the result as <em>signatureValue</em>.
-          </li>
-          <li>
-            The <em>signatureValue</em> will be in one of the two following formats depending on options:
-            <code>-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js...</code>.
-            or when passed with compact option:
-            <code>wl4EARMIAAYFAlw6KOAACgkQSnoBzSruDWC...</code>.
-                      </li>
-        </ol>
+    </li>
+    <li>
+        The <em>signatureValue</em> will be in one of the two following formats depending on options:
+        <code>-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js...</code>.
+    
+    </li>
+    </ol>
 
-      </section>
+</section>
 
-    <section>
-        <h3>Modifications to Signature Verification Algorithm</h3>
+<section>
+    <h3>Verification Algorithm</h3>
 
-        <p>
+    <p>
 The <var>digital signature algorithm</var> defined in Section 11.4:
 Signature Verification Algorithm takes the value to be verified,
 <em>tbv</em>, the <em>public key</em> to the signature algorithm
 and returns a boolean value.
-        </p>
-        <ol class="algorithm">
-          <li>
+    </p>
+    <ol class="algorithm">
+    <li>
 Take <var>tbv</var> and perform the
 <a href="https://tools.ietf.org/html/rfc4880#section-11.4">Sign Detached</a>
 digital signature verification algorithm specified in
 Section 11.4 of [[RFC4880]]. If the result is a valid signature, return
 <code>true</code>, otherwise return <code>false</code>.
-          </li>
-        </ol>
+    </li>
+    </ol>
 
-      </section>
+</section>
 
-    </section>
+</section>
 
-    <section>
-      <h2>Security Considerations</h2>
-      <p>
+<section>
+<h2>Security Considerations</h2>
+
+<p>
 The following section describes security considerations that developers
 implementing this specification should be aware of in order to create secure
 software.
-      </p>
+</p>
 
 <div class="issue">TODO: We need to add a complete list of security
 considerations.</div>
 
-<ol class="security_considerations">
-  <li>
-    This Signature Suite relies on the security and assumptions made by OpenPGP.js. 
-    Or any compatibile OpenPGP library implemented in a different language. 
-    We assume specifcally that sign and verify deteched are implemented safely for 
-    all supported key types.
-  </li>
-</ol>
-    </section>
+
+<section>
+        <h3>OpenPGP & GPG Compatibile</h3>
+<p>
+        This Signature Suite relies on the security and assumptions made by any compatibile OpenPGP library. 
+        We assume that sign and verify detached are implemented safely for all supported key types.
+</p>
+</section> 
+        
+</section>
 
 
-    <section class="appendix">
-      <h2>Examples</h2>
+<section class="appendix">
+<h2>Examples</h2>
 
-      <p>
-A simple example of an OpenPGP 2019 signature:
-      </p>
+<section>
+        <h3>DID Signature</h3>
 
-      <pre class="example highlight">
+<pre class="example highlight">
 {
-  "@context": ["http://schema.org/", "https://w3id.org/security/v1"],
-  "description": "Hello world!",
-  "proof": {
-    "type": "OpenPgpSignature2019",
-    "created": "2017-10-24T05:33:31Z",
-    "creator": "https://example.com/jdoe/keys/1",
-    "domain": "example.com",
-    "signatureValue": "wl4EARMIAAYFAlw6...KOAACgkQSnoBzSruDWC"
-  }
-}
-      </pre>
-    </section>
+    "@context": ["http://schema.org/", "https://w3id.org/security/v1"],
+    "description": "Hello world!",
+    "proof": {
+        "type": "OpenPgpSignature2019",
+        "verificationMethod": "did:btcr:xxcl-lzpq-q83a-0d5#yubikey",
+        "proofPurpose": "assertionMethod",
+        "created": "2019-08-11T03:54:13.310Z",
+        "signatureValue": "-----BEGIN PGP SIGNATURE-----\nComment: GPGTools - https://gpgtools.org\n\niQEzBAABCgAdFiEE8b0S9xIG+...\n-----END PGP SIGNATURE-----\n"
 
-  </body>
+    }
+}
+</pre>
+</section> 
+
+<section>
+<h3>HTTPS Web Server</h3>
+
+<pre class="example highlight">
+{
+    "@context": ["http://schema.org/", "https://w3id.org/security/v1"],
+    "description": "Hello world!",
+    "proof": {
+        "type": "OpenPgpSignature2019",
+        "created": "2017-10-24T05:33:31Z",
+        "verificationMethod": "https://example.com/jdoe/keys/1",
+        "domain": "example.com",
+        "signatureValue": "wl4EARMIAAYFAlw6...KOAACgkQSnoBzSruDWC"
+    }
+}
+</pre>
+</section> 
+
+
+</section>
+</body>
 </html>

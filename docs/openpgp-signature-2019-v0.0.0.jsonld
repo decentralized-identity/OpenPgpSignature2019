@@ -1,0 +1,14 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "id": "@id",
+    "type": "@type",
+
+    "openpgp": "https://identity.foundation/OpenPgpSignature2019/#",
+
+    "OpenPgpSignature2019": "openpgp:OpenPgpSignature2019",
+    "OpenPgpVerificationKey2019": "openpgp:OpenPgpVerificationKey2019",
+
+    "publicKeyPgp": "openpgp:publicKeyPgp"
+  }
+}
