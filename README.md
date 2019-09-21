@@ -239,6 +239,23 @@ if (verified) {
 }
 ```
 
+## Developement
+
+```
+git clone git@github.com:decentralized-identity/OpenPgpSignature2019.git
+cd OpenPgpSignature2019
+npm i
+```
+
+### Running the Tests
+
+You won't be able to sign with the binary test, unless you steal my yubikey.
+The other tests should pass.
+
+```
+npm run test
+```
+
 ## Commercial Support
 
 Commercial support for this library is available upon request from
