@@ -27,10 +27,10 @@
     "codecov": "^3.1.0",
     "coveralls": "^3.0.2",
     "jest": "^24.8.0",
-    "jsonld-signatures": "^4.2.0"
+    "jsonld-signatures": "^11.0.0"
   },
   "dependencies": {
-    "jsonld": "^1.4.0",
+    "jsonld": "^8.1.0",
     "node-fetch": "^2.6.0",
     "openpgp": "^4.5.5",
     "shelljs": "^0.8.3",
